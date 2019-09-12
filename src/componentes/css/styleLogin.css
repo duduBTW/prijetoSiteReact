@@ -1,0 +1,33 @@
+.loginConteiner {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 4%;
+}
+
+.login {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 30px;
+  border: 1px solid black;
+  width: 360px;
+}
+
+.login h3 {
+  color: #494646;
+  margin-bottom: 40px;
+  margin-top: 10px;
+}
+/*# sourceMappingURL=styleLogin.css.map */

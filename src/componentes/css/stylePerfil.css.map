@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAEI,KAFC,CAED,EAAE,CAAA;EACE,MAAM,EAAE,GAAG;EACX,OAAO,EAAE,qBAAqB;EAC9B,UAAU,EAAE,oBAAoB;EAChC,KAAK,EAAE,KAAK;CACf;;AAPL,AAQI,KARC,CAQD,GAAG,CAAA;EACC,OAAO,EAAE,mBAAmB;CAC/B",
+    "sources": [
+        "stylePerfil.scss"
+    ],
+    "names": [],
+    "file": "stylePerfil.css"
+}

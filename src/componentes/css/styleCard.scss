@@ -1,0 +1,25 @@
+.all{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    .form{
+        width: 400px;
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        .enviar{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .row{
+            display: flex;
+            .col-6{
+                width: 185px;
+                margin-right: 30px;
+            }
+        }
+    }
+    
+}
