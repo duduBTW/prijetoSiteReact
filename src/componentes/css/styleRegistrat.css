@@ -22,7 +22,30 @@
           align-items: center;
   padding: 30px;
   border: 1px solid black;
-  width: 360px;
+  width: 760px;
+}
+
+.reg .itens {
+  display: flex row wrap;
+}
+
+.reg .itens #nome {
+  width: 420px;
+  margin-right: 10px;
+}
+
+.reg .itens #cpf {
+  width: 265px;
+}
+
+.reg .itens #senha {
+  width: 344px;
+  margin-top: 20px;
+}
+
+.reg .itens #senha2 {
+  width: 344px;
+  margin-left: 10px;
 }
 
 .reg h3 {

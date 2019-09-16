@@ -19,26 +19,40 @@ class AdcProduto extends Component {
         })
     }
     registrar = (nome, email, senha, senha2) => {
-        axios.post('https://restprojeto.herokuapp.com/api/putUser', {
-            nome, email, senha, senha2
-        })
-        .then((res) =>{
-            const { error, success } = res.data;
+        if(!nome || !email || !senha || !senha2){
             this.setState({
-            error
-        })
-        if (success){
-            Swal.fire({
-                type: 'success',
-                title: 'Conta criada com sucesso'
+                error : [{msg: 'Por favor preencha todos os campos'}]
             })
-            .then((result) => {
-                if(result){
-                    this.props.history.push('/entrar');
+        } else if (senha.length < 6){
+            this.setState({
+                error : [{msg: 'Senha tem que ter no minimo 6 caracteres'}]
+            })
+        } else if (senha !== senha2){
+            this.setState({
+                error : [{msg: 'Senhas diferentes'}]
+            })
+        } else {
+            axios.post('https://restprojeto.herokuapp.com/api/putUser', {
+                nome, email, senha, senha2
+            })
+                .then((res) =>{
+                    const { error, success } = res.data;
+                    this.setState({
+                    error
+                    })
+                if (success){
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Conta criada com sucesso'
+                    })
+                    .then((result) => {
+                        if(result){
+                            this.props.history.push('/entrar');
+                        }
+                    })
                 }
-            })
+            });
         }
-    });
     }
     render(){
         const { nome, email, senha, senha2, error } = this.state
@@ -52,10 +66,13 @@ class AdcProduto extends Component {
                         ))
                     )
                     : null }
-                    <input type="text" name="nome" id="nome" placeholder="Nome..." onChange={this.aomudar}/>
-                    <input type="email" name="email" id="email" placeholder="Email..." onChange={this.aomudar}/>
-                    <input type="password" name="senha" id="senha" placeholder="Senha..." onChange={this.aomudar}/>
-                    <input type="password" name="senha2" id="senha2" placeholder="Confirmar senha..." onChange={this.aomudar}/>
+                    <div className="itens">
+                        <input type="text" name="nome" id="nome" placeholder="Nome..." onChange={this.aomudar}/>
+                        <input type="text" name="cpf" id="cpf" placeholder="Cpf..." onChange={this.aomudar}/>
+                        <input type="email" name="email" id="email" placeholder="Email..." onChange={this.aomudar}/>
+                        <input type="password" name="senha" id="senha" placeholder="Senha..." onChange={this.aomudar}/>
+                        <input type="password" name="senha2" id="senha2" placeholder="Confirmar senha..." onChange={this.aomudar}/>
+                    </div>
                     <div className="center botoes">
                         <button className="btn center black" style={{marginTop: 25}} onClick={(e)=> {
                             e.preventDefault()

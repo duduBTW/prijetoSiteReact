@@ -66,26 +66,24 @@ export default class Cartao extends React.Component {
         acc[d.name] = d.value;
         return acc;
       }, {});
-    console.log(formData)
-    axios.post('https://restprojeto.herokuapp.com/api/putCard', {
-      formData,
-      email: this.props.email
-    })
-    .then((resultado) => {
-      const user = resultado.data.data
-      const token = jwt.sign({ user }, 'HifumiBestWaifu');
-      Cookies.set('token', token);
+      axios.post('https://restprojeto.herokuapp.com/api/putCard', {
+        formData,
+        email: this.props.email
+      })
+      .then((resultado) => {
+        const user = resultado.data.data
+        const token = jwt.sign({ user }, 'HifumiBestWaifu');
+        Cookies.set('token', token);
         Swal.fire({
           type: 'success',
-          title: 'Cartão adicionado com sucesso'
-      })
-      .then((result) => {
-          if(result){
-            this.props.history.push('/perfil/verCartao');
-          }
-      })
-    }
-     
+          title: 'Dados adicionados com sucesso'
+        })
+        .then((result) => {
+            if(result){
+              this.props.history.push('/perfil/verCartao');
+            }
+        })
+      }
     )
   };
 

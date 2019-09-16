@@ -34,7 +34,6 @@ class AdcProduto extends Component {
 
             // Remover Cookie
             // Cookies.remove('token');
-
             if(success){
                 var token = jwt.sign({ user }, 'HifumiBestWaifu');
 

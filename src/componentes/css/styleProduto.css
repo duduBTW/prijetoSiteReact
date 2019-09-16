@@ -1,0 +1,62 @@
+.produto {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 20px;
+}
+
+.produto .img {
+  -webkit-box-flex: 4;
+      -ms-flex-positive: 4;
+          flex-grow: 4;
+}
+
+.produto .infos {
+  margin-right: 30px;
+  -webkit-box-flex: 2;
+      -ms-flex-positive: 2;
+          flex-grow: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  max-width: 400px;
+}
+
+.produto .infos h3 {
+  border-bottom: 1px rgba(128, 128, 128, 0.404) solid;
+  padding-bottom: 30px;
+}
+
+.produto .infos h4 {
+  margin-top: 10px;
+}
+
+.produto .comprar {
+  -webkit-box-flex: 4;
+      -ms-flex-positive: 4;
+          flex-grow: 4;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border: 1px solid rgba(128, 128, 128, 0.404);
+}
+
+.produto .comprar button {
+  margin: 7px;
+  width: 80%;
+}
+/*# sourceMappingURL=styleProduto.css.map */

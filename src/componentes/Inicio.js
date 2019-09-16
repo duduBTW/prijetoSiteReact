@@ -3,6 +3,7 @@ import { NavLink, Link  } from 'react-router-dom'
 import './css/styleInicio.css'
 import {  ProgressBar } from 'react-materialize';
 import axios from 'axios';
+import 'materialize-css/dist/css/materialize.min.css';
 
 class Inicio extends Component {
     state = {
@@ -61,10 +62,10 @@ class Inicio extends Component {
                 : 
                 <div className="tudos">
                 <div className="sideBar">
-                <input type="text" name="" id="" placeholder="Pesquisar..."/>
+                <input type="text" placeholder="Pesquisar..."/>
                     <ul className="itemSideBar">
                         <li><NavLink to="/inicio/todos">TODOS</NavLink></li>
-                        <li><NavLink to="/inicio/celular">SMARTPHONES</NavLink></li> 
+                        <li><NavLink to="/inicio/celular">CELULARES</NavLink></li> 
                         <li><NavLink to="/inicio/perifericos">PERIFÉRICOS</NavLink></li> 
                         <li><NavLink to="/inicio/computadores">COMPUTADORES</NavLink></li> 
                         <li><NavLink to="/inicio/consoles">CONSOLES</NavLink></li> 

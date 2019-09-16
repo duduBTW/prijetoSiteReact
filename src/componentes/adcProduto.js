@@ -11,38 +11,46 @@ class AdcProduto extends Component {
         preco: 0,
         image: null,
         url: null,
-        tipo: null,
-        progresso: 0
+        tipo: 'celular',
+        progresso: 0,
+        erro: null
     }
     adcProdToDB = (titulo, preco, tipo, url) => {
-        const uploadTask = storage.ref(`images/${titulo}`).put(this.state.image) // A primeira parte(ref) é o nome do arquivo, então eu vou colocar o nome do produto que a pessoa enviou
-        uploadTask.on('state_changed', (snapshot) => {
-            // Progresso
-            const progresso = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
-            this.setState({progresso})
-        }, (error) => {
-            console.log(error)
-        }, () =>{
-            // Completo
-            storage.ref('images').child(titulo).getDownloadURL().then(url => {
-                axios.post('http://localhost:3001/api/putProd', {
-                    titulo,
-                    preco,
-                    tipo,
-                    url
-                });
-                Swal.fire({
-                    type: 'success',
-                    title: 'Produto adicionado'
-                })
-                .then((result) => {
-                    if(result){
-                        window.location.href = `${__dirname}`
-                    }
+        if (titulo === null || preco === null || tipo === null || this.state.image === null){
+            this.setState({erro : 'Por favor preencha todos os campos e selecione uma imagem'})
+        } else if (preco < 0){
+            this.setState({erro : 'Produto com preço negativo ┐(´д`)┌'})
+        } else {
+            const uploadTask = storage.ref(`images/${titulo}`).put(this.state.image) // A primeira parte(ref) é o nome do arquivo, então eu vou colocar o nome do produto que a pessoa enviou
+            uploadTask.on('state_changed', (snapshot) => {
+                // Progresso
+                const progresso = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+                this.setState({progresso})
+            }, (error) => {
+                console.log(error)
+            }, () =>{
+                // Completo
+                storage.ref('images').child(titulo).getDownloadURL().then(url => {
+                    axios.post('http://localhost:3001/api/putProd', {
+                        titulo,
+                        preco,
+                        tipo,
+                        url
+                    })
+                    .then( res =>
+                        Swal.fire({ 
+                            type: 'success',
+                            title: 'Produto adicionado'
+                        })
+                        .then((result) => {
+                            if(result){
+                                this.props.history.push('/');
+                            }
+                        })
+                    );
                 })
             })
-        })
-        
+        }
     };
     aoMudar = (e) => {
         if(e.target.files[0]){
@@ -57,6 +65,7 @@ class AdcProduto extends Component {
            <div className="conteiner-login">
                  <form action='/' onSubmit={ (e) => {e.preventDefault()}} className="adc">
                     <h3 className="center">Adicionar Produto</h3>
+                    <div className="red-text center">{this.state.erro}</div>
                     <input type="text" name="titulo" id="titulo" placeholder="Nome..." onChange={(e)=> this.setState({[e.target.id]: e.target.value})}/>
                     <input type="number" name="preco" id="preco" placeholder="Preço..." onChange={(e)=> this.setState({[e.target.id]: e.target.value})}/>
                     <select style={{display: 'block'}} onChange={e => {this.setState({ tipo: e.target.value })}}>

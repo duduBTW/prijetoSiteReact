@@ -10,6 +10,7 @@ import Inicio from './componentes/Inicio';
 import Registrar from './componentes/registrar';
 import Login from './componentes/Login';
 import Perfil from './componentes/perfil';
+import Carrinho from './componentes/carrinho';
 import ImageUpload from './componentes/ImageUpload';
 import Cartao from './componentes/creditCard'
 import Produto from './componentes/produto'
@@ -28,20 +29,17 @@ class App extends Component {
     nome: null
   };
 
-  // when component mounts, first thing it does is fetch all existing data in our db
-  // then we incorporate a polling logic so that we can easily see if our db has
-  // changed and implement those changes into our UI
   componentDidMount() {
     this.getDataFromDb();
     var token = Cookies.get('token')
-        if (token){
-            var decoded = jwt.verify(token, 'HifumiBestWaifu');
-            const { email, nome } = decoded.user
-            this.setState({
-                email,
-                nome
-            })
-        }
+      if (token){
+        var decoded = jwt.verify(token, 'HifumiBestWaifu');
+        const { email, nome } = decoded.user
+        this.setState({
+          email,
+          nome
+        })
+    }
   }
 
   // our first get method that uses our backend api to
@@ -74,13 +72,12 @@ class App extends Component {
     });
   };
 
-  adcProdToDB = (titulo, preco) => {
-    axios.post('https://restprojeto.herokuapp.com/api/putProd', {
-      titulo,
-      preco
-    });
-    window.location.href = `${__dirname}`
-  };
+  // adcProdToDB = (titulo, preco) => {
+  //   axios.post('https://restprojeto.herokuapp.com/api/putProd', {
+  //     titulo,
+  //     preco
+  //   });
+  // };
 
   // our delete method that uses our backend api
   // to remove existing database information
@@ -121,11 +118,12 @@ class App extends Component {
         <Route exact path="/teste" render={(props) => <Teste />} />         
         <Route exact path="/" render={(props) => <Inicio />} />         
         <Route path="/inicio/:filtro" render={(props) => <Inicio {...props} />} />       
-        <Route exact path="/adicionar" render={(props) => <AdcProduto adcProdToDB={this.adcProdToDB} />} />         
+        <Route exact path="/adicionar" render={(props) => <AdcProduto {...props} adcProdToDB={this.adcProdToDB} />} />         
         <Route exact path="/registrar" render={(props) => <Registrar {...props} />} />         
         <Route exact path="/card" render={(props) => <Cartao {...props} email={email} />} />         
         <Route exact path="/entrar" render={(props) => <Login {...props}  />} />         
         <Route exact path="/addImage" render={(props) => <ImageUpload {...props}  />} />  
+        <Route exact path="/carrinho" render={(props) => <Carrinho {...props}  />} />  
         <Route path="/perfil" render={(props) => <Perfil {...props} addProp={this.addProp} />} />   
         <Route path="/perfil/card" render={(props) => <Cartao {...props} email={email} />} />        
         <Route path="/perfil/verCartao" render={(props) => <MostrarCartao {...props}  />} />    

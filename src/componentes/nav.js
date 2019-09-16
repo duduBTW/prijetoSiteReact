@@ -24,12 +24,14 @@ class Nav extends Component{
                         { nome === null ? 
                         (
                             <ul className="right">
+                                <li><Link style={{marginTop: 3}} to="/carrinho"><i className="material-icons">shopping_basket</i></Link></li>
                                 <li><Link to="/registrar">Criar Conta</Link></li>         
                                 <li><Link to="/entrar">Entrar</Link></li>         
                             </ul>
                         ) : 
                         (
                             <ul className="right">
+                                <li><Link style={{marginTop: 3}} to="/carrinho"><i className="material-icons">shopping_basket</i></Link></li>
                                 <li><Link to="/adicionar">Adicionar Item</Link></li>
                                 <li><Link to="/perfil">{nome}</Link></li> 
                             </ul>
