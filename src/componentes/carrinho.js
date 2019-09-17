@@ -31,15 +31,18 @@ class Carrinho extends Component {
         } 
     }
     
-    removerItem = (itemRemover) => {
-        const produtoBase = this.state.itensCarrinho.filter(item => item.titulo !== itemRemover)
+    removerItem = (itemRemoverTitulo) => {
+        // Removendo o item do cookie
+        const produtoBase = this.state.itensCarrinho.filter(item => item.titulo !== itemRemoverTitulo)
         this.setState({itensCarrinho: produtoBase})
         const produto = jwt.sign({ produtoBase }, 'HifumiBestWaifu');
         Cookies.set('produto', produto);
-
+        
+        // Removendo o item da pagina atual
+        const itemRemover = (this.state.itensCarrinho.find(item => item.titulo === itemRemoverTitulo);                    
         this.setState({
-            precoTotal: this.state.precoTotal - (this.state.itensCarrinho.find(item => item.titulo === itemRemover).preco * this.state.itensCarrinho.find(item => item.titulo === itemRemover).quantidade),
-            itemTotal: this.state.itemTotal - this.state.itensCarrinho.find(item => item.titulo === itemRemover).quantidade
+            precoTotal: this.state.precoTotal - (itemRemover.preco * itemRemover.quantidade),
+            itemTotal: this.state.itemTotal - itemRemover.quantidade
         })
     }
 
@@ -47,6 +50,7 @@ class Carrinho extends Component {
         const produtoInicio = this.state.itensCarrinho.find(produto => produto.titulo === titulo)
         let produtoBase = this.state.itensCarrinho.filter(produto => produto.titulo !== titulo)
     
+        // Adiciona ou remove os dados
         if (addOrRem === 'adicionar'){
             produtoInicio.quantidade = ++produtoInicio.quantidade
             this.setState({
