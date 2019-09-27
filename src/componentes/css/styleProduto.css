@@ -11,6 +11,11 @@
           flex-grow: 4;
 }
 
+.produto .img img {
+  max-width: 518px;
+  min-width: 518px;
+}
+
 .produto .infos {
   margin-right: 30px;
   -webkit-box-flex: 2;

@@ -3,6 +3,10 @@
     padding: 20px;
     .img{
         flex-grow: 4;
+        img{
+            max-width: 518px;
+            min-width: 518px;
+        }
     }
     .infos{
         margin-right: 30px;

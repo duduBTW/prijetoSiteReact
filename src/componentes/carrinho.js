@@ -12,9 +12,11 @@ class Carrinho extends Component {
     state = {
         itensCarrinho: null,
         precoTotal: 0,
-        itemTotal: 0
+        itemTotal: 0,
+        itemRemovido: null
     }
     componentDidMount = () =>{
+        window.scrollTo(0, 0);
         const produto = Cookies.get('produto')
         if(produto){
             const produtoo = Cookies.get('produto')
@@ -37,9 +39,11 @@ class Carrinho extends Component {
         const produto = jwt.sign({ produtoBase }, 'HifumiBestWaifu');
         Cookies.set('produto', produto);
 
+        const itemParaRemover = this.state.itensCarrinho.find(item => item.titulo === itemRemover);
         this.setState({
-            precoTotal: this.state.precoTotal - (this.state.itensCarrinho.find(item => item.titulo === itemRemover).preco * this.state.itensCarrinho.find(item => item.titulo === itemRemover).quantidade),
-            itemTotal: this.state.itemTotal - this.state.itensCarrinho.find(item => item.titulo === itemRemover).quantidade
+            precoTotal: this.state.precoTotal - (itemParaRemover.preco * itemParaRemover.quantidade),
+            itemTotal: this.state.itemTotal - itemParaRemover.quantidade,
+            itemRemovido: itemParaRemover
         })
     }
 
@@ -66,16 +70,67 @@ class Carrinho extends Component {
         Cookies.set('produto', produto);
     }
 
+    desfazer = () =>{
+        const {itemRemovido, itensCarrinho} = this.state
+        const produtoBase = [...itensCarrinho, itemRemovido]
+        this.setState({itensCarrinho: produtoBase})
+        const produto = jwt.sign({ produtoBase }, 'HifumiBestWaifu');
+        Cookies.set('produto', produto);
+
+        this.setState({
+            precoTotal: this.state.precoTotal + (itemRemovido.preco * itemRemovido.quantidade),
+            itemTotal: this.state.itemTotal + itemRemovido.quantidade,
+            itemRemovido: null
+        })
+    }
+
     render(){
-        const { itensCarrinho, precoTotal, itemTotal } = this.state
+        const { itensCarrinho, precoTotal, itemTotal, itemRemovido } = this.state
         return(
            <div>
                 {itensCarrinho !== null && itensCarrinho.length > 0 ? (
                     <div className="conteinerTudo">
                         <div className="itensCar">
+
+                        {itemRemovido !== null ? 
+                            <ul 
+                                style={{maxWidth: 690}}
+                                className="collapsible" 
+                                onClick={() => {
+                                    var elems = document.querySelectorAll('.collapsible');
+                                    M.Collapsible.init(elems);
+                                }}
+                            >
+                                <li className="active">
+                                <div className="collapsible-header red-text">
+                                    <i className="material-icons">delete</i>
+                                    <div>
+                                    {itemRemovido.titulo} removido do carrinho
+                                    </div>
+                                </div>
+                                    <div className="collapsible-body">
+                                        <div style={{display: 'flex',flexDirection: "column", alignItems: "center"}}>
+                                            <button 
+                                            style={{marginBottom: 10}} 
+                                            className="btn waves-effect waves-light black"
+                                            onClick={this.desfazer}
+                                            >Desfazer</button>
+                                            
+                                            <button 
+                                            className="btn waves-effect waves-light black"
+                                            onClick={
+                                                () => this.setState({itemRemovido: null})
+                                            }
+                                            >Deletar aba</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                         : null}
+
                             <h5>Meu carrinho</h5>
                             {itensCarrinho.map(item => (
-                                <div className="itemCar" key={item.titulo}>
+                                <div className="img" data-aos-duration="340" data-aos="fade-right" data-aos-easing="ease-out-cubic" className="itemCar" key={item.titulo}>
                                     <img data-caption={item.titulo} className="materialboxed" src={item.image} onLoad={() => {
                                         var elems = document.querySelectorAll('.materialboxed');
                                         M.Materialbox.init(elems);
@@ -130,9 +185,9 @@ class Carrinho extends Component {
                                 </div>
                             ))}
                         </div>
-                        <div className="resumoCar">
+                        <div  className="resumoCar">
                             <h5>Resumo da compra</h5>
-                            <div className="infos">
+                            <div className="infos img" data-aos-duration="300" data-aos="fade-left" data-aos-easing="ease-out-cubic">
                                 <div className="infosPrecos black-text">
                                     <h5>Total 
                                         <span style={{fontSize: 22}}>

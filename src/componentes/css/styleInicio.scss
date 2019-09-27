@@ -18,21 +18,6 @@
         }
     }
     
-    .item{
-        display: flex;
-        flex-direction: column;
-        border: 1px solid black;
-        margin: 15px;
-        padding: 10px;
-        transition: 0.2s;
-        border-radius: 4px;
-        max-height: 389px;
-        .titulo{
-            padding-top: 10px;
-            margin-top: 10px;
-            border-top: 1px solid black;
-        }
-    }
     .ulItens{
         margin-top: 40px;
         margin-left: 10px;

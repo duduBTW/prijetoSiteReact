@@ -46,7 +46,6 @@ class perfil extends Component {
                     </ul>
                     
                     </nav>
-
             </div>
         )
     }
