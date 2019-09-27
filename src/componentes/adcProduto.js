@@ -31,7 +31,7 @@ class AdcProduto extends Component {
             }, () =>{
                 // Completo
                 storage.ref('images').child(titulo).getDownloadURL().then(url => {
-                    axios.post('http://localhost:3001/api/putProd', {
+                    axios.post('https://restprojeto.herokuapp.com/api/putProd', {
                         titulo,
                         preco,
                         tipo,

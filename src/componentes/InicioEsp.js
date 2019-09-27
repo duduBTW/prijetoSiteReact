@@ -35,7 +35,7 @@ class InicioEsp extends Component {
         console.log('aaa')
     }    
     getProdEsp = (prod) => {
-        axios.post('http://localhost:3001/api/getProdutoEsp', {
+        axios.post('https://restprojeto.herokuapp.com/api/getProdutoEsp', {
             pord: prod
         })
         .then(dat => this.setState({dataUsuarios: dat.data.data}));
