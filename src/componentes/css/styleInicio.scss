@@ -21,13 +21,15 @@
     .ulItens{
         margin-top: 40px;
         margin-left: 10px;
+        margin-left: 260px;
     }
 }
 .sideBar{
+    position: fixed;
     min-width: 260px;
     max-width: 260px;
-    min-height: 100vh;
-    max-height: 100%;    
+    // min-height: 100vh;
+    min-height: 100%;    
     border-right: 1px solid black;
 }
 
