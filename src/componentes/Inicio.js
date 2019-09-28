@@ -21,7 +21,7 @@ const Inicio = (data) => {
                 :
 
                 <div className="tudos">
-                    <SideBar />
+                    <SideBar data={data.data} />
                     <ul
                         className="ulItens"
                         style={{ display: 'flex', 'flexFlow': 'row wrap', 'justifyContent': 'center' }}
