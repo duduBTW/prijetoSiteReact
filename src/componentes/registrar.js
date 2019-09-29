@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import {  Link  } from 'react-router-dom'
+import 'materialize-css/dist/css/materialize.min.css';
+import M from "materialize-css";
 
 import './css/styleRegistrat.css'
 
@@ -67,11 +69,34 @@ class AdcProduto extends Component {
                     )
                     : null }
                     <div className="itens">
-                        <input type="text" name="nome" id="nome" placeholder="Nome..." onChange={this.aomudar}/>
-                        <input type="text" name="cpf" id="cpf" placeholder="Cpf..." onChange={this.aomudar}/>
-                        <input type="email" name="email" id="email" placeholder="Email..." onChange={this.aomudar}/>
-                        <input type="password" name="senha" id="senha" placeholder="Senha..." onChange={this.aomudar}/>
-                        <input type="password" name="senha2" id="senha2" placeholder="Confirmar senha..." onChange={this.aomudar}/>
+                        <div style={{display: "flex"}}>
+                            <div className="input-field">
+                                <input type="text" name="nome" id="nome" onChange={this.aomudar}/>
+                                <label for="nome">Nome</label>
+                            </div>
+                            <div className="input-field">
+                                <input type="text" name="cpf" id="cpf" onChange={this.aomudar}/>
+                                <label for="cpf">Cpf</label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div className="input-field">
+                                <input className="validate" type="email" name="email" id="email" onChange={this.aomudar}/>
+                                <label for="email">Email</label>
+                                <span className="helper-text" data-error="Email inválido" data-success="certo"></span>
+                            </div>
+                        </div>
+                        <div style={{display: "flex"}}>
+                            <div className="input-field">
+                                <input type="password" name="senha" id="senha" onChange={this.aomudar}/>
+                                <label for="senha">Senha</label>
+                            </div>
+                            <div className="input-field">
+                                <input type="password" name="senha2" id="senha2" onChange={this.aomudar}/>
+                                <label for="senha2">Confirmar senha</label>
+                            </div>
+                        </div>
                     </div>
                     <div className="center botoes">
                         <button className="btn center black" style={{marginTop: 25}} onClick={(e)=> {

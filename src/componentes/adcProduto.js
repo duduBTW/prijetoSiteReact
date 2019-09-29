@@ -11,7 +11,7 @@ class AdcProduto extends Component {
         preco: 0,
         image: null,
         url: null,
-        tipo: 'celular',
+        tipo: null,
         progresso: 0,
         erro: null
     }
@@ -68,21 +68,41 @@ class AdcProduto extends Component {
                     <div className="red-text center">{this.state.erro}</div>
                     <input type="text" name="titulo" id="titulo" placeholder="Nome..." onChange={(e) => this.setState({ [e.target.id]: e.target.value })} />
                     <input type="number" name="preco" id="preco" placeholder="Preço..." onChange={(e) => this.setState({ [e.target.id]: e.target.value })} />
-                    <select style={{ display: 'block' }} onChange={e => { this.setState({ tipo: e.target.value }) }}>
+                    {/* <select style={{ display: 'block' }} onChange={e => { this.setState({ tipo: e.target.value }) }}>
+                        
+                    </select> */}
+                        <div className="file-field input-field">
+                        <div className="btn black">
+                            <span>Imagem</span>
+                            <input 
+                            type="file"
+                            onChange={this.aoMudar}
+                            accept=".png, .jpg, .jpeg, .gif"
+                            ></input>
+                        </div>
+                        <div className="file-path-wrapper">
+                            <input className="file-path validate" type="text"></input>
+                        </div>
+                        </div>
+                    <div className="input-field" style={{width: "100%"}} onChange={e => { this.setState({ tipo: e.target.value }) }}>
+                        <select style={{ display: 'block' }}>
+                        <option value="" disabled selected>Escolha uma categoria</option>
                         <option value="celular">Celular</option>
                         <option value="perifericos">Periferico</option>
                         <option value="computadores">Computador</option>
                         <option value="consoles">Console</option>
-                    </select>
+                        </select>
+                    </div>
                     <div>
-                        <input
+                        
+                        {/* <input
                             accept=".png, .jpg, .jpeg, .gif"
                             style={{ display: 'none' }}
                             type="file"
                             onChange={this.aoMudar}
                             ref={fileInput => this.fileInput = fileInput}
                         />
-                        <button style={{ marginTop: 20 }} className="btn center black" onClick={() => this.fileInput.click()}>Escolher Arquivo</button>
+                        <button style={{ marginTop: 20 }} className="btn center black" onClick={() => this.fileInput.click()}>Escolher Arquivo</button> */}
                     </div>
                     {this.state.progresso > 0 ? <ProgressBar progress={this.state.progresso} /> : null}
                     <div className="center botoes">

@@ -40,12 +40,11 @@
 
 .reg .itens #senha {
   width: 344px;
-  margin-top: 20px;
+  margin-right: 10px;
 }
 
 .reg .itens #senha2 {
   width: 344px;
-  margin-left: 10px;
 }
 
 .reg h3 {

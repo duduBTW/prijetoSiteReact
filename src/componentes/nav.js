@@ -41,7 +41,18 @@ class Nav extends Component {
                             ) :
                             (
                                 <ul className="right">
-                                    <li><Link style={{ marginTop: 3 }} to="/carrinho"><i className="material-icons">shopping_basket</i></Link></li>
+                                    <li>
+                                        <Link
+                                        data-position="bottom"
+                                        data-tooltip="Carrinho"
+                                        style={{ marginTop: 3 }}
+                                        className="tooltipped"
+                                        onMouseEnter={() => {
+                                            var elems = document.querySelectorAll('.tooltipped');
+                                            M.Tooltip.init(elems, { margin: 0, enterDelay: 100, exitDelay: 0 });
+                                        }}
+                                        to="/carrinho"><i className="material-icons">shopping_basket</i></Link>
+                                    </li>
                                     <li><Link to="/adicionar">Adicionar Item</Link></li>
                                     <li><Link to="/perfil">{nome}</Link></li>
                                 </ul>

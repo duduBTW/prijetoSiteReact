@@ -71,8 +71,15 @@ class AdcProduto extends Component {
                  <form action='/' onSubmit={ (e) => {e.preventDefault()}} className="login">
                     <h3 className="center">Entrar</h3>
                     { msg !== null ? <div className="red-text">{msg}</div> : null }
-                    <input type="email" name="email" id="email" placeholder="Email..." onChange={this.aomudar}/>
-                    <input type="password" name="senha" id="senha" placeholder="Senha..." onChange={this.aomudar}/>
+                        <div className="input-field" style={{ width: "100%"}}>
+                            <input className="validate" type="email" name="email" id="email" onChange={this.aomudar}/>
+                            <label for="email">Email</label>
+                            <span className="helper-text" data-error="Email inválido" data-success="certo"></span>
+                        </div>
+                        <div className="input-field" style={{ width: "100%"}}>
+                            <input type="password" name="senha" id="senha" onChange={this.aomudar}/>
+                            <label for="senha">Senha</label>
+                        </div>
                     <div className="center botoes">
                         <button style={{marginTop: 25}} className="btn center black" onClick={(e)=> {
                             e.preventDefault()

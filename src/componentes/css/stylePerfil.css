@@ -5,7 +5,9 @@
   color: white;
 }
 
-.tudo nav {
-  padding: 0px 150px 0px 150px;
+.tudo .tabs {
+  width: 91%;
+  margin-left: 9%;
+  padding: 0px 150px 0px 0px;
 }
 /*# sourceMappingURL=stylePerfil.css.map */
