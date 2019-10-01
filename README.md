@@ -4,35 +4,35 @@ Projeto de Uma Loja criado utilizando React como front end, node js como back en
 
 ## Beta disponivel online
 
-https://projetoloja.netlify.com/
+https://happyhardware.netlify.com
 
-## Available Scripts
+##  Scripts
 
-In the project directory, you can run:
+No diretorio do projeto você pode usar:
 
 ### `cd backend & node server`
 
 Utilize esse comando para entrar na pasta do servidor e começar uma rest API local para testes. 
 
+Esse servidor vai ser inicializado por padrã no http://localhost:3001
+
+E os erros e console.log's irão aparecer no cmd.
+
 ### `npm start`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Começa o aplicativo no modo de desenvolvimento.<br>
+Abre [http://localhost:3000](http://localhost:3000) para ver no navegador.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+A pagina tem atualiza automaticamente quando ocorrem mudanças.<br>
+E os erros irão aparecer no console do navegador e no cmd.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Cria uma versão de produção em uma pasta chamada build no mesmo diretorio do projeto.<br>
+Isso fornece melhor performance para o aplicativo.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Se você fizer isso se aplicativo está pronto para o deployment na internet.<br>
+(Recomendo o uso do netlify, pois você só precisa jogar a pasta build na aba deploy. [netlify](https://www.netlify.com/))
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Acesse [deployment](https://facebook.github.io/create-react-app/docs/deployment) para mais informações.
