@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import * as Cookies from 'es-cookie';
 import { Link } from 'react-router-dom'
 import './css/stylePerfil.css'
+import MostrarCartao from './verCartao';
+import Cartao from './creditCard'
 import 'materialize-css/dist/css/materialize.min.css';
 import M from "materialize-css";
 
@@ -29,6 +31,11 @@ class perfil extends Component {
             this.props.history.push('/entrar');
         }
     }
+
+    attCartao = (cartao) =>{
+        this.setState({cartao})
+    }
+
     Sair = () =>{       
         // Remover Cookie
         Cookies.remove('token');
@@ -42,18 +49,35 @@ class perfil extends Component {
                     <div>
                         <h3> { nome }</h3>
                     </div>
-                    {/* <nav className='nav-wrapper white'>
-                    <ul className="">
-                    <li>{cartao !== undefined ? <Link to={'/perfil/verCartao'} className="black-text">Ver cartão</Link> : <Link to={'/perfil/card'} className="black-text">Adicionar Cartão</Link>}</li>
-                    <li className="right"><a className="black-text " onClick={this.Sair}>Sair</a></li>
-                    </ul>
-                    
-                    </nav> */}
-                    <ul className="tabs">
+                    {/* <ul className="tabs">
                         <li className="tab col s3"><Link onClick={() => this.props.history.push('/perfil/')} className="active black-text">Inicio</Link></li>
-                        <li className="tab">{cartao !== undefined ? <Link onClick={() => this.props.history.push('/perfil/verCartao')} className="black-text">Ver cartão</Link> : <Link onClick={() => this.props.history.push('/perfil/card')} className="black-text">Adicionar Cartão</Link>}</li>
+                        <li className="tab">
+                            {cartao !== undefined ? 
+                                <Link onClick={() => this.props.history.push('/perfil/verCartao')} className="black-text">Ver cartão</Link> 
+                            : 
+                                <Link onClick={() => this.props.history.push('/perfil/card')} className="black-text">Adicionar Cartão</Link>}
+                        </li>
+                        <li className="tab right"><button className="black btn" onClick={this.Sair}>Sair</button></li>
+                    </ul> */}
+                    <ul id="tabs-swipe-demo" className="tabs">
+                        <li className="tab col s3"><a className="active" href="#test-swipe-1">Inicio</a></li>
+                        <li className="tab col s3"><a href="#test-swipe-2">Cartão</a></li>
+                        <li className="tab col s3"><a href="#test-swipe-3">Editar Cartão</a></li>
                         <li className="tab right"><button className="black btn" onClick={this.Sair}>Sair</button></li>
                     </ul>
+                    <div id="test-swipe-1"></div>
+                    <div id="test-swipe-2">
+                        <MostrarCartao />
+                        <button
+                            style={{margin: 20}} 
+                            className="btn black"
+                            onClick={() =>{
+                            var instance = M.Tabs.init(document.querySelector('.tabs'));
+                            instance.select('test-swipe-3');
+                            }}>Editar
+                        </button>
+                    </div>
+                    <div id="test-swipe-3"><Cartao attCartao={this.attCartao} email={email} /></div>
             </div>
         )
     }

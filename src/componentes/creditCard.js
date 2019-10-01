@@ -2,6 +2,7 @@ import React from 'react';
 import Card from 'react-credit-cards';
 import axios from 'axios';
 import Swal from 'sweetalert2'
+import M from "materialize-css";
 
 import 'react-credit-cards/es/styles-compiled.css';
 import './css/styleCard.css'
@@ -80,7 +81,14 @@ export default class Cartao extends React.Component {
         })
         .then((result) => {
             if(result){
-              this.props.history.push('/perfil/verCartao');
+              if(this.props.history !== undefined){
+                this.props.history.push('/perfil');
+              } else {
+                // var instance = M.Tabs.init(this.props.tab);
+                // instance.select('test-swipe-2');
+                // this.props.attCartao(user.cartao)
+                window.location.reload();
+              }
             }
         })
       }
@@ -158,9 +166,9 @@ export default class Cartao extends React.Component {
               <button className="btn black btn-block">Enviar informações</button>
             </div>
           </form>
-          <h3>{formData !== null ? <div>Nome: {formData.name}</div>  : null}</h3>
+          {/* <h3>{formData !== null ? <div>Nome: {formData.name}</div>  : null}</h3>
           <h3>{formData !== null ? <div>Numero: {formData.number}</div> : null}</h3>
-          <h3>{formData !== null ? <div>Codigo de segurança: {formData.cvc}</div> : null}</h3>
+          <h3>{formData !== null ? <div>Codigo de segurança: {formData.cvc}</div> : null}</h3> */}
           
         </div>
       </div>

@@ -21,18 +21,22 @@ class AdcProduto extends Component {
         })
     }
     registrar = (nome, email, senha, senha2) => {
+        let error = null
         if(!nome || !email || !senha || !senha2){
-            this.setState({
-                error : [{msg: 'Por favor preencha todos os campos'}]
-            })
+            // this.setState({
+            //     error : [{msg: 'Por favor preencha todos os campos'}]
+            // })
+            error = 'Por favor preencha todos os campos'
         } else if (senha.length < 6){
-            this.setState({
-                error : [{msg: 'Senha tem que ter no minimo 6 caracteres'}]
-            })
+            // this.setState({
+            //     error : [{msg: 'Senha tem que ter no minimo 6 caracteres'}]
+            // })
+            error = 'Senha tem que ter no minimo 6 caracteres'
         } else if (senha !== senha2){
-            this.setState({
-                error : [{msg: 'Senhas diferentes'}]
-            })
+            // this.setState({
+            //     error : [{msg: 'Senhas diferentes'}]
+            // })
+            error = 'Senhas diferentes'
         } else {
             axios.post('https://restprojeto.herokuapp.com/api/putUser', {
                 nome, email, senha, senha2
@@ -42,6 +46,7 @@ class AdcProduto extends Component {
                     this.setState({
                     error
                     })
+                    
                 if (success){
                     Swal.fire({
                         type: 'success',
@@ -55,6 +60,10 @@ class AdcProduto extends Component {
                 }
             });
         }
+        if(error !== null){
+            M.Toast.dismissAll();
+            M.toast({html: error, displayLength: 6000})
+        }
     }
     render(){
         const { nome, email, senha, senha2, error } = this.state
@@ -62,12 +71,6 @@ class AdcProduto extends Component {
            <div className="conteiner-login regConteiner">
                  <form action='/' onSubmit={ (e) => {e.preventDefault()}} className="reg">
                     <h3 className="center">Criar conta</h3>
-                    {error ? (
-                        error.map(erro =>(
-                            <div key={erro.msg} className='red-text'>{erro.msg}</div>
-                        ))
-                    )
-                    : null }
                     <div className="itens">
                         <div style={{display: "flex"}}>
                             <div className="input-field">

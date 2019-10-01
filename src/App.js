@@ -13,7 +13,7 @@ import Login from './componentes/Login';
 import Perfil from './componentes/perfil';
 import Carrinho from './componentes/carrinho';
 import ImageUpload from './componentes/ImageUpload';
-// import PaginaNaoEncontrada from './componentes/PaginaNaoEncontrada'
+import PaginaNaoEncontrada from './componentes/PaginaNaoEncontrada'
 import Cartao from './componentes/creditCard'
 import Produto from './componentes/produto'
 import * as Cookies from 'es-cookie';
@@ -68,8 +68,9 @@ class App extends Component {
   render() {
     const { data, nome, email } = this.state;
     return (
-      <BrowserRouter>
+      <BrowserRouter> 
       <Nav nome={nome} email={email} />
+      <Switch>
         <Route exact path="/adcTeste" render={(props) => <AddTeste data={data} putDataToDB={this.putDataToDB} deleteFromDB={this.deleteFromDB} 
         updateDB={this.updateDB}
         />} />         
@@ -86,6 +87,8 @@ class App extends Component {
         <Route path="/perfil/card" render={(props) => <Cartao {...props} email={email} />} />        
         <Route path="/perfil/verCartao" render={(props) => <MostrarCartao {...props}  />} />    
         <Route path="/produto/:datTitulo" render={(props) => <Produto {...props} data={data} />}/> 
+        <Route component={PaginaNaoEncontrada} />
+      </Switch>
       </BrowserRouter>
     );
   }

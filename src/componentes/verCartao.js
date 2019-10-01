@@ -44,7 +44,7 @@ export default class MostrarCartao extends React.Component {
               expiry={expiry}
               cvc={cvc}
             />
-            <Link to={'/perfil/card'} style={{margin: 20}} className="btn black">Editar</Link>
+            {/* <Link to={'/card'} style={{margin: 20}} className="btn black">Editar</Link> */}
           </div>
           : null}
         </div>

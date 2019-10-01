@@ -4,6 +4,8 @@ import { storage } from '../firebase/index'
 import Swal from 'sweetalert2'
 import './css/styleAdd.css'
 import { ProgressBar } from 'react-materialize';
+import M from "materialize-css";
+
 
 class AdcProduto extends Component {
     state = {
@@ -16,10 +18,13 @@ class AdcProduto extends Component {
         erro: null
     }
     adcProdToDB = (titulo, preco, tipo, url) => {
+        let erro 
         if (titulo === null || preco === null || tipo === null || this.state.image === null) {
-            this.setState({ erro: 'Por favor preencha todos os campos e selecione uma imagem' })
+            // this.setState({ erro: 'Por favor preencha todos os campos e selecione uma imagem' })
+            erro = 'Por favor preencha todos os campos e selecione uma imagem'
         } else if (preco < 0) {
-            this.setState({ erro: 'Produto com preço negativo ┐(´д`)┌' })
+            // this.setState({ erro: 'Produto com preço negativo ┐(´д`)┌' })
+            erro = 'Produto com preço negativo ┐(´д`)┌'
         } else {
             const uploadTask = storage.ref(`images/${titulo}`).put(this.state.image) // A primeira parte(ref) é o nome do arquivo, então eu vou colocar o nome do produto que a pessoa enviou
             uploadTask.on('state_changed', (snapshot) => {
@@ -50,6 +55,10 @@ class AdcProduto extends Component {
                         );
                 })
             })
+        }
+        if(erro){
+            M.Toast.dismissAll();
+            M.toast({html: erro, displayLength: 6000})
         }
     };
     aoMudar = (e) => {
