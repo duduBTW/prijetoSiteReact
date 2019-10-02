@@ -101,6 +101,7 @@ export default class Cartao extends React.Component {
     return (
       <div key="Payment" className="all">
         <div className="App-payment">
+          <h4 style={{margin: 20}} className="center">Cartão</h4>
           <Card
             onClick=""
             number={number}

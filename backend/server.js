@@ -1,3 +1,7 @@
+const Gerador = require('gerador-boletos');
+const fs = require('fs');
+var path = require('path')
+
 const mongoose = require('mongoose');
 const express = require('express');
 var cors = require('cors');
@@ -34,6 +38,96 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
 
+router.get('/teste',(req, res) => {
+})
+
+// router.get('/gerarBoleto', (req, res) =>{
+//   const init = () => {
+//     const boleto = createBoleto();
+  
+//     const dir = '../temp'
+//     if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+//     const writeStream = fs.createWriteStream('../temp/boleto-cecred.pdf');
+  
+//     new Gerador.boleto.Gerador(boleto).gerarPDF({
+//       creditos: '',
+//       stream: writeStream
+//     }, (err, pdf) => {
+//       if (err) return console.error(err);
+  
+//       writeStream.on('finish', () => {
+//         console.log('written on temp!');
+//       });
+//       // return res.redirect(path.join(__dirname, '../temp', 'boleto-cecred.pdf'))
+//       return res.json({ success: path.join(__dirname, '../temp', 'boleto-cecred.pdf') });
+//     });
+//   }
+  
+//   const createBoleto = () => {
+//     const Datas = Gerador.boleto.Datas;
+//     const bancos = Gerador.boleto.bancos;
+//     const pagador = createPagador();
+//     const beneficiario = createBeneficiario();
+//     const instrucoes = createInstrucoes();
+  
+//     return Gerador.boleto.Boleto.novoBoleto()
+//       .comDatas(Datas.novasDatas()
+//         .comVencimento(15, 08, 2018)
+//         .comProcessamento(14, 07, 2017)
+//         .comDocumento(14, 07, 2017))
+//       .comBeneficiario(beneficiario)
+//       .comPagador(pagador)
+//       .comBanco(new bancos.Cecred())
+//       .comValorBoleto(210.15) //Apenas duas casas decimais
+//       .comNumeroDoDocumento(1001)
+//       .comEspecieDocumento('DM') //Duplicata de Venda Mercantil
+//       .comInstrucoes(instrucoes);
+//   }
+  
+//   const createPagador = () => {
+//     const enderecoPagador = Gerador.boleto.Endereco.novoEndereco()
+//       .comLogradouro('Rua Maria Aparecisa Bargosa guimarães')
+//       .comBairro('Centro')
+//       .comCidade('Guarulhos')
+//       .comUf('SP')
+//       .comCep('088882')
+  
+//     return Gerador.boleto.Pagador.novoPagador()
+//       .comNome('Carlos Eduardo')
+//       .comRegistroNacional('72285732503')
+//       .comEndereco(enderecoPagador)
+//   }
+  
+//   const createBeneficiario = () => {
+//     const enderecoBeneficiario = Gerador.boleto.Endereco.novoEndereco()
+//       .comLogradouro('Rua Maria Aparecisa, 117')
+//       .comBairro('Consolação')
+//       .comCidade('São Paulo')
+//       .comUf('SP')
+//       .comCep('01301100')
+  
+//     return Gerador.boleto.Beneficiario.novoBeneficiario()
+//       .comNome('Happy hardware LTDA')
+//       .comRegistroNacional('43576788000191')
+//       .comNumeroConvenio('123456')
+//       .comCarteira('09')
+//       .comAgencia('0101')
+//       .comDigitoAgencia('5')
+//       .comCodigoBeneficiario('03264467')
+//       .comDigitoCodigoBeneficiario('0')
+//       .comNossoNumero('00115290000000004') //17 digitos
+//       .comEndereco(enderecoBeneficiario);
+//   }
+  
+//   const createInstrucoes = () => {
+//     const instrucoes = [];
+//     instrucoes.push(`Após o vencimento Mora dia R$ 1,59`);
+//     instrucoes.push(`Após o vencimento, multa de 2%`);
+//     return instrucoes;
+//   }
+  
+//   init();
+// })
 
 // this is our get method
 // this method fetches all available data in our database
@@ -41,7 +135,7 @@ router.get('/getData', (req, res) => {
   Produtos.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
-  });
+  }); 
 });
 
 router.get('/getProdutos', (req, res) => {
@@ -51,6 +145,7 @@ router.get('/getProdutos', (req, res) => {
   });
 
 });
+
 
 router.post('/getProdutoEsp', (req, res) => {
   Produtos.find({tipo: req.body.pord}, (err, data) => {

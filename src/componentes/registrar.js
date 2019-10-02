@@ -7,6 +7,10 @@ import M from "materialize-css";
 
 import './css/styleRegistrat.css'
 
+import {
+    formatCpf
+  } from './things/utils';
+
 class AdcProduto extends Component {
     state = {
         nome: null,
@@ -16,6 +20,9 @@ class AdcProduto extends Component {
         error: null
     }
     aomudar = (e) => {
+        if (e.target.name === 'cpf') {
+            e.target.value = formatCpf(e.target.value);
+        }
         this.setState({
             [e.target.id]: e.target.value
         })
@@ -78,7 +85,11 @@ class AdcProduto extends Component {
                                 <label for="nome">Nome</label>
                             </div>
                             <div className="input-field">
-                                <input type="text" name="cpf" id="cpf" onChange={this.aomudar}/>
+                                <input type="text" 
+                                name="cpf" 
+                                onChange={this.handleInputChange}
+                                id="cpf" 
+                                onChange={this.aomudar}/>
                                 <label for="cpf">Cpf</label>
                             </div>
                         </div>

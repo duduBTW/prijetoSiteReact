@@ -59,6 +59,19 @@ export function formatExpirationDate(value) {
   return clearValue;
 }
 
+export function formatCpf(value, prevValue, allValues = {}) {
+  const clearValue = clearNumber(value);
+  let maxLength = 11;
+
+  if (allValues.number) {
+    const issuer = Payment.fns.cardType(allValues.number);
+  }
+
+  let nextValue = `${clearValue.slice(0, 3)} ${clearValue.slice(3, 6)} ${clearValue.slice(6, 9)} ${clearValue.slice(9, maxLength)}`
+
+  return nextValue.trim();
+}
+
 export function formatFormData(data) {
   return Object.keys(data).map(d => `${d}: ${data[d]}`);
 }

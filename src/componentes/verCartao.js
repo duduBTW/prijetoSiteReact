@@ -36,7 +36,7 @@ export default class MostrarCartao extends React.Component {
       <div key="Payment">
         <div className="App-payment">
           { numero !== null && numero !== undefined ?
-          <div className="center" style={{margin: 30}}>
+          <div className="center" style={{marginTop: "4%"}}>
             <h4 style={{margin: 20}}>Seu cartão</h4>
             <Card
               number={numero}

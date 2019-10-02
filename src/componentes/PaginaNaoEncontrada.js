@@ -4,6 +4,7 @@ const PaginaNaoEncontrada = (props) => {
     const [pagina, setpagina] = useState(1);
 
     const Background = `https://anilist.co/img/404/404_chan${pagina}.jpg`
+
     return(
         <div className="center">
             <img onClick={() => {
