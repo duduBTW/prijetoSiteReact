@@ -1,26 +1,30 @@
 import React, {Component} from 'react';
 import { storage } from '../firebase/index'
+import axios from 'axios';
 
 class Teste extends Component {
     aaa = () =>{
-        fetch('http://localhost:3001/api/gerarBoleto')
-            .then((data) => data.json())
-            .then((res) => {
-                var file = new Blob([res.success], {type: 'application/pdf'});
-                const uploadTask = storage.ref(`images/testePoggg`).put(file) // A primeira parte(ref) é o nome do arquivo, então eu vou colocar o nome do produto que a pessoa enviou
-            uploadTask.on('state_changed', (snapshot) => {
-                // Progresso
-            }, (error) => {
-                console.log(error)
-            }, () => {
-                // Completo
-                // storage.ref('images').child(titulo).getDownloadURL().then(url => {
+        axios.post('http://localhost:3001/api/gerarBoleto', {
+            nome: "Teste"
+        }).then(res => window.open(`http://localhost:3001/Teste.pdf`,'_blank') )
+        // fetch('http://localhost:3001/api/gerarBoleto')
+        //     .then((data) => data.json())
+        //     .then((res) => {
+        //         var file = new Blob([res.success], {type: 'application/pdf'});
+        //         const uploadTask = storage.ref(`images/testePoggg`).put(file) // A primeira parte(ref) é o nome do arquivo, então eu vou colocar o nome do produto que a pessoa enviou
+        //     uploadTask.on('state_changed', (snapshot) => {
+        //         // Progresso
+        //     }, (error) => {
+        //         console.log(error)
+        //     }, () => {
+        //         // Completo
+        //         // storage.ref('images').child(titulo).getDownloadURL().then(url => {
                     
                         
-                //     })
-                console.log(':)')
-                })
-            });
+        //         //     })
+        //         console.log(':)')
+        //         })
+        //     });
     } 
     render(){
         return(

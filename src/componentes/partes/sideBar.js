@@ -25,7 +25,7 @@ const SideBar = (data) => {
     console.log(itens)
     return(
         <div data-aos-duration="270" data-aos="fade-right" data-aos-easing="ease-out-cubic" style={estilo} className="sideBar">
-            <div className="input-field">
+            <div style={{width: "100%", padding: 10}} className="input-field">
             <input 
                 id="autocomplete-input" 
                 className="autocomplete"

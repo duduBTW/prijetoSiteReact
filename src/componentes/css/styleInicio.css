@@ -36,13 +36,13 @@
 .tudos .ulItens {
   margin-top: 40px;
   margin-left: 10px;
-  margin-left: 260px;
+  margin-left: 18%;
 }
 
 .sideBar {
   position: fixed;
-  min-width: 260px;
-  max-width: 260px;
+  min-width: 18%;
+  max-width: 18%;
   min-height: 100%;
   border-right: 1px solid black;
 }

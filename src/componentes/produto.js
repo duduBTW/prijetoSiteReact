@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {  ProgressBar } from 'react-materialize';
 import {  Link  } from 'react-router-dom'
+import { storage } from '../firebase/index'
 import './css/styleProduto.css'
 import 'materialize-css/dist/css/materialize.min.css';
 import M from "materialize-css";
+import axios from 'axios';
 import * as Cookies from 'es-cookie';
 
 import Item from './partes/Item'
@@ -11,10 +13,12 @@ import Item from './partes/Item'
 var jwt = require('jsonwebtoken');
 
 class Produto extends Component{
-    state = {
+    state = { 
         produto: null,
         titulo: null,
-        itensHistorico: null
+        itensHistorico: null,
+        nome: null,
+        email: null
     }
     componentWillReceiveProps(props){
         window.scrollTo(0, 0);
@@ -40,6 +44,16 @@ class Produto extends Component{
             if(produto !== undefined) {
                 this.addHistorico(produto)
             }
+        }
+
+        var token = Cookies.get('token')
+        if (token){
+            var decoded = jwt.verify(token, 'HifumiBestWaifu');
+            const { email, nome } = decoded.user
+            this.setState({
+                email,
+                nome
+            })
         }
     }
 
@@ -102,6 +116,33 @@ class Produto extends Component{
             }
         }
     }
+
+    comprarBoleto = () =>{
+        axios.post('http://localhost:3001/api/gerarBoleto', {
+            nome: `${this.state.nome}`,
+            titulo: `${this.state.produto.titulo.replace(/ /g, "_")}`,
+            preco: this.state.produto.preco,
+        }).then(res => {
+            // create the blob object with content-type "application/pdf"               
+            var blob = new Blob( [res], { type: "application/pdf" });
+            console.log(res)
+            const uploadTask = storage.ref(`images/testePoggg55`).put(blob) // A primeira parte(ref) é o nome do arquivo, então eu vou colocar o nome do produto que a pessoa enviou
+            uploadTask.on('state_changed', (snapshot) => {
+                // Progresso
+            }, (error) => {
+                console.log(error)
+            }, () => {
+                // Completo
+                // storage.ref('images').child(titulo).getDownloadURL().then(url => {
+                    
+                        
+                //     })
+                console.log(':)')
+                })
+            })
+            // window.open(`http://localhost:3001/${this.state.produto.titulo.replace(/ /g, "_")}.pdf`,'_blank')
+        }
+
     render(){
         return(
             <div> 
@@ -119,7 +160,7 @@ class Produto extends Component{
                                 <h4>{this.state.produto !== null ? <div><span className="grey-text">Preço:</span> <span className="green-text">R$:{this.state.produto.preco}</span></div> : null}</h4>
                             </div>
                             <div className="comprar">
-                                <button className="btn black waves-effect waves-green">Comprar Agora</button>
+                                <button onClick={this.comprarBoleto} className="btn black waves-effect waves-green">Comprar Agora</button>
                                 <button onClick={this.addCarrinho} className="btn black waves-effect waves-green">Adicionar ao carrinho</button>
                             </div>
                             {  
