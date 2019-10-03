@@ -1,26 +1,14 @@
 .tudos{
     display: flex;
     .itemSideBar{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        a{
-            color: black;
-        }
-        li{
-            padding: 10px;
-        }
         .active{
-            border-bottom: 1px solid black;
-        }
-        ul{
-            padding: 0px;
+            border: 1px rgb(104, 102, 102) solid;
         }
     }
     @media screen and (min-width: 992px) {
         .ulItens{
             margin-top: 40px;
-            margin-left: 260px;
+            margin-left: 300px;
         }
     }
     .ulItens{

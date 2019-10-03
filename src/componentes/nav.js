@@ -44,7 +44,7 @@ class Nav extends Component {
                                                     M.Tooltip.init(elems, { margin: 0, enterDelay: 100, exitDelay: 0 });
                                                 }}
                                                 to="/carrinho"><i className="material-icons">shopping_basket</i></Link></li>
-                                            <li><Link className="waves-effect waves-light" to="/registrar">Criar Conta</Link></li>
+                                            <li><Link to="/registrar">Criar Conta</Link></li>
                                             <li><Link to="/entrar">Entrar</Link></li>
                                         </ul>
                                     </div>

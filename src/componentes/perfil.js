@@ -20,7 +20,7 @@ class perfil extends Component {
         cpf: null
     }
     componentDidMount(){
-        M.Tabs.init(document.querySelector(".tabs"));
+        M.Tabs.init(document.querySelector(".tabs"), {swipeable: true});
         // Ler Token
         var token = Cookies.get('token')
         if (token){
@@ -76,7 +76,7 @@ class perfil extends Component {
                     <ul id="tabs-swipe-demo" className="tabs">
                         <li className="tab col s3"><a className="active" href="#test-swipe-1">Inicio</a></li>
                         <li className="tab col s3"><a href="#test-swipe-2">Cartão</a></li>
-                        <li className="tab col s3"><a href="#test-swipe-3">Editar Cartão</a></li>
+                        {/* <li className="tab col s3"><a href="#test-swipe-3">Editar Cartão</a></li> */}
                         <li className="tab col s3"><a href="#test-swipe-4">Editar Conta</a></li>
                         <li className="tab right"><button className="black btn" onClick={this.Sair}>Sair</button></li>
                     </ul>
@@ -87,30 +87,33 @@ class perfil extends Component {
                     </div>
                     <div id="test-swipe-2">
                         <MostrarCartao />
-                        <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
+                        <div>
                             <button
                                 style={{margin: 20}} 
                                 className="btn black"
                                 onClick={() =>{
-                                var instance = M.Tabs.init(document.querySelector('.tabs'));
-                                instance.select('test-swipe-3');
-                                }}>Editar
+                                {/* var instance = M.Tabs.init(document.querySelector('.tabs'));
+                                instance.select('test-swipe-3'); */}
+                                this.props.history.push('/card')
+                                }}
+                                >
+                                Editar
                             </button>
                         </div>
                     </div>
-                    <div id="test-swipe-3"><Cartao attCartao={this.attCartao} email={email} /></div>
-                    <div id="test-swipe-4" style={{padding: "0px 150px 0px 150px"}}> 
+                    {/* <div id="test-swipe-3"><Cartao attCartao={this.attCartao} email={email} /></div> */}
+                    <div id="test-swipe-4"> 
                         <div style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginTop: "4%"}} >
-                            <div className="input-field" style={{ width: "40%"}}>
+                            <div className="input-field">
                                 <input className="validate" type="email" name="email" id="email" value={email} onChange={this.aomudar} />
                                 <label className="active" for="email">Editar Email</label>
                                 <span className="helper-text" data-error="Email inválido" data-success="certo"></span>
                             </div>
-                            <div className="input-field" style={{ width: "40%"}}>
+                            <div className="input-field">
                                 <input className="validate" type="text" name="nome" id="nome" value={nome} onChange={this.aomudar} /> 
                                 <label className="active" for="nome">Editar Nome</label>
                             </div>
-                            <div className="input-field" style={{ width: "40%"}}>
+                            <div className="input-field">
                                 <input className="validate" name="cpf" onChange={this.aomudar} id="cpf" /> 
                                 <label className="active" for="cpf">Editar Cpf</label>
                             </div>

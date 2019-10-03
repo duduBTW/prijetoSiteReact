@@ -4,39 +4,14 @@
   display: flex;
 }
 
-.tudos .itemSideBar {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.tudos .itemSideBar a {
-  color: black;
-}
-
-.tudos .itemSideBar li {
-  padding: 10px;
-}
-
 .tudos .itemSideBar .active {
-  border-bottom: 1px solid black;
-}
-
-.tudos .itemSideBar ul {
-  padding: 0px;
+  border: 1px #686666 solid;
 }
 
 @media screen and (min-width: 992px) {
   .tudos .ulItens {
     margin-top: 40px;
-    margin-left: 260px;
+    margin-left: 300px;
   }
 }
 
