@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as Cookies from 'es-cookie';
-import { storage } from '../firebase/index'
+import { Link } from 'react-router-dom'
 import './css/stylePerfil.css'
 import MostrarCartao from './verCartao';
 import Cartao from './creditCard'

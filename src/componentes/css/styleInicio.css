@@ -33,16 +33,21 @@
   padding: 0px;
 }
 
+@media screen and (min-width: 992px) {
+  .tudos .ulItens {
+    margin-top: 40px;
+    margin-left: 260px;
+  }
+}
+
 .tudos .ulItens {
   margin-top: 40px;
-  margin-left: 10px;
-  margin-left: 18%;
 }
 
 .sideBar {
   position: fixed;
-  min-width: 18%;
-  max-width: 18%;
+  min-width: 260px;
+  max-width: 260px;
   min-height: 100%;
   border-right: 1px solid black;
 }
@@ -63,5 +68,29 @@
   transition: 0.1s;
   -webkit-box-shadow: 5px 7px 9px rgba(0, 0, 0, 0.2);
           box-shadow: 5px 7px 9px rgba(0, 0, 0, 0.2);
+}
+
+.navbar {
+  background-color: white;
+  border-top: 1px solid black;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-top: 5px;
+}
+
+/* Style the links inside the navigation bar */
+.navbar a {
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-bottom: 5px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Add a color to the active/current link */
+.navbar a.active {
+  border-bottom: 1px solid black;
 }
 /*# sourceMappingURL=styleInicio.css.map */

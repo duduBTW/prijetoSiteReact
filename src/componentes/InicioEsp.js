@@ -48,7 +48,9 @@ class InicioEsp extends Component {
                     ? <div><ProgressBar /></div>
                     :
                     <div className="tudos">
-                        <SideBar data={this.props.data} />
+                        <div className="hide-on-med-and-down">
+                            <SideBar data={this.props.data} />
+                        </div>
                         <ul className="ulItens" style={{ display: 'flex', 'flexFlow': 'row wrap', 'justifyContent': 'center' }}>
                             {dataUsuarios.map((dat) => (
                                 <Item key={dat._id} data={dat} />
@@ -56,6 +58,14 @@ class InicioEsp extends Component {
                         </ul>
                     </div>
                 }
+                <div class="navbar hide-on-large-only">
+                    <ul style={{display: "flex", justifyContent: "center"}} className="itemSideBar">
+                        <li><NavLink className="black-text" to="/inicio/celular">Celulares</NavLink></li> 
+                        <li><NavLink className="black-text" to="/inicio/perifericos">Perifericos</NavLink></li> 
+                        <li><NavLink className="black-text" to="/inicio/computadores">PC</NavLink></li> 
+                        <li><NavLink className="black-text" to="/inicio/consoles">Consoles</NavLink></li> 
+                    </ul>
+                </div>
             </div>
         )
     }
