@@ -7,12 +7,12 @@ import 'materialize-css/dist/css/materialize.min.css';
 
 import SideBar from './partes/sideBar'
 import Item from './partes/Item'
+import BottomBar from './partes/BottomBar';
 
 class InicioEsp extends Component {
     state = {
         dataUsuarios: []
     }
-
     componentWillMount() {
         // Quando você clica no filtro
         if (this.props.match !== undefined) {
@@ -32,7 +32,7 @@ class InicioEsp extends Component {
                 this.getProdEsp(props.match.params.filtro);
             }
         }
-        console.log('aaa')
+        window.scrollTo(0, 0);
     }
     getProdEsp = (prod) => {
         axios.post('https://restprojeto.herokuapp.com/api/getProdutoEsp', {
@@ -58,14 +58,7 @@ class InicioEsp extends Component {
                         </ul>
                     </div>
                 }
-                <div class="navbar hide-on-large-only">
-                    <ul style={{display: "flex", justifyContent: "center"}} className="itemSideBar">
-                        <li><NavLink className="black-text" to="/inicio/celular">Celulares</NavLink></li> 
-                        <li><NavLink className="black-text" to="/inicio/perifericos">Perifericos</NavLink></li> 
-                        <li><NavLink className="black-text" to="/inicio/computadores">PC</NavLink></li> 
-                        <li><NavLink className="black-text" to="/inicio/consoles">Consoles</NavLink></li> 
-                    </ul>
-                </div>
+                <BottomBar />
             </div>
         )
     }

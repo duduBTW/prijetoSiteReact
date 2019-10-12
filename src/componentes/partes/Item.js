@@ -11,7 +11,8 @@ const Item = (data) => {
         padding: '10px',
         transition: '0.2s',
         borderRadius: '4px',
-        maxHeight: '389px'
+        maxHeight: '389px',
+        maxWidth: '270'
     }
     const titulo = {
         paddingTop: '8px',

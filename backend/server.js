@@ -40,101 +40,101 @@ app.use(logger('dev'));
 
 app.use(express.static(path.join(__dirname, '..', 'temp')))
 
-router.post('/gerarBoleto', (req, res) =>{
-  const init = () => {
-    const boleto = createBoleto();
-  
-    const dir = '../temp'
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir);
-    const writeStream = fs.createWriteStream(`../temp/${req.body.titulo}.pdf`);
-  
-    new Gerador.boleto.Gerador(boleto).gerarPDF({
-      creditos: '',
-      stream: writeStream
-    }, (err, pdf) => {
-      if (err) return console.error(err);
-  
-      writeStream.on('finish', () => {
-        console.log('written on temp!');
-      });
-      var file = fs.createReadStream(`../temp/${req.body.titulo}.pdf`);
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename=quote.pdf');
-      file.pipe(res);
-      // return res.redirect(path.join(__dirname, '../temp', 'boleto-cecred.pdf'))
-      // return res.json({ success: path.join(__dirname, '../temp', 'boleto-cecred.pdf') });
-    });
-  }
-  
-  const createBoleto = () => {
-    const Datas = Gerador.boleto.Datas;
-    const bancos = Gerador.boleto.bancos;
-    const pagador = createPagador();
-    const beneficiario = createBeneficiario();
-    const instrucoes = createInstrucoes();
+// router.post('/gerarBoleto', (req, res) =>{
+//   const init = () => {
+//     const boleto = createBoleto();
 
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth();
-    let yyyy = today.getFullYear();
-  
-    return Gerador.boleto.Boleto.novoBoleto()
-      .comDatas(Datas.novasDatas()
-        .comVencimento(dd + 2, mm, yyyy)
-        .comProcessamento(dd, mm, yyyy)
-        .comDocumento(dd, mm, yyyy))
-      .comBeneficiario(beneficiario)
-      .comPagador(pagador)
-      .comBanco(new bancos.Cecred())
-      .comValorBoleto(req.body.preco) //Apenas duas casas decimais
-      .comNumeroDoDocumento(1001)
-      .comEspecieDocumento('DM') //Duplicata de Venda Mercantil
-      .comInstrucoes(instrucoes);
-  }
-  
-  const createPagador = () => {
-    const enderecoPagador = Gerador.boleto.Endereco.novoEndereco()
-      .comLogradouro('Rua Maria Aparecisa Bargosa guimarães')
-      .comBairro('Centro')
-      .comCidade('Guarulhos')
-      .comUf('SP')
-      .comCep('088882')
-  
-    return Gerador.boleto.Pagador.novoPagador()
-      .comNome(req.body.nome)
-      .comRegistroNacional('72285732503')
-      .comEndereco(enderecoPagador)
-  }
-  
-  const createBeneficiario = () => {
-    const enderecoBeneficiario = Gerador.boleto.Endereco.novoEndereco()
-      .comLogradouro('Rua Maria Aparecisa, 117')
-      .comBairro('Consolação')
-      .comCidade('São Paulo')
-      .comUf('SP')
-      .comCep('01301100')
-  
-    return Gerador.boleto.Beneficiario.novoBeneficiario()
-      .comNome('Happy hardware LTDA')
-      .comRegistroNacional('43576788000191')
-      .comNumeroConvenio('123456')
-      .comCarteira('09')
-      .comAgencia('0101')
-      .comDigitoAgencia('5')
-      .comCodigoBeneficiario('03264467')
-      .comDigitoCodigoBeneficiario('0')
-      .comNossoNumero('00115290000000004') //17 digitos
-      .comEndereco(enderecoBeneficiario);
-  }
-  
-  const createInstrucoes = () => {
-    const instrucoes = [];
-    instrucoes.push(`Não receber documento após o vencimento`);
-    return instrucoes;
-  }
-  
-  init();
-})
+//     const dir = '../temp'
+//     if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+//     const writeStream = fs.createWriteStream(`../temp/${req.body.titulo}.pdf`);
+
+//     new Gerador.boleto.Gerador(boleto).gerarPDF({
+//       creditos: '',
+//       stream: writeStream
+//     }, (err, pdf) => {
+//       if (err) return console.error(err);
+
+//       writeStream.on('finish', () => {
+//         console.log('written on temp!');
+//       });
+//       var file = fs.createReadStream(`../temp/${req.body.titulo}.pdf`);
+//       res.setHeader('Content-Type', 'application/pdf');
+//       res.setHeader('Content-Disposition', 'attachment; filename=quote.pdf');
+//       file.pipe(res);
+//       // return res.redirect(path.join(__dirname, '../temp', 'boleto-cecred.pdf'))
+//       // return res.json({ success: path.join(__dirname, '../temp', 'boleto-cecred.pdf') });
+//     });
+//   }
+
+//   const createBoleto = () => {
+//     const Datas = Gerador.boleto.Datas;
+//     const bancos = Gerador.boleto.bancos;
+//     const pagador = createPagador();
+//     const beneficiario = createBeneficiario();
+//     const instrucoes = createInstrucoes();
+
+//     let today = new Date();
+//     let dd = today.getDate();
+//     let mm = today.getMonth();
+//     let yyyy = today.getFullYear();
+
+//     return Gerador.boleto.Boleto.novoBoleto()
+//       .comDatas(Datas.novasDatas()
+//         .comVencimento(dd + 2, mm, yyyy)
+//         .comProcessamento(dd, mm, yyyy)
+//         .comDocumento(dd, mm, yyyy))
+//       .comBeneficiario(beneficiario)
+//       .comPagador(pagador)
+//       .comBanco(new bancos.Cecred())
+//       .comValorBoleto(req.body.preco) //Apenas duas casas decimais
+//       .comNumeroDoDocumento(1001)
+//       .comEspecieDocumento('DM') //Duplicata de Venda Mercantil
+//       .comInstrucoes(instrucoes);
+//   }
+
+//   const createPagador = () => {
+//     const enderecoPagador = Gerador.boleto.Endereco.novoEndereco()
+//       .comLogradouro('Rua Maria Aparecisa Bargosa guimarães')
+//       .comBairro('Centro')
+//       .comCidade('Guarulhos')
+//       .comUf('SP')
+//       .comCep('088882')
+
+//     return Gerador.boleto.Pagador.novoPagador()
+//       .comNome(req.body.nome)
+//       .comRegistroNacional('72285732503')
+//       .comEndereco(enderecoPagador)
+//   }
+
+//   const createBeneficiario = () => {
+//     const enderecoBeneficiario = Gerador.boleto.Endereco.novoEndereco()
+//       .comLogradouro('Rua Maria Aparecisa, 117')
+//       .comBairro('Consolação')
+//       .comCidade('São Paulo')
+//       .comUf('SP')
+//       .comCep('01301100')
+
+//     return Gerador.boleto.Beneficiario.novoBeneficiario()
+//       .comNome('Happy hardware LTDA')
+//       .comRegistroNacional('43576788000191')
+//       .comNumeroConvenio('123456')
+//       .comCarteira('09')
+//       .comAgencia('0101')
+//       .comDigitoAgencia('5')
+//       .comCodigoBeneficiario('03264467')
+//       .comDigitoCodigoBeneficiario('0')
+//       .comNossoNumero('00115290000000004') //17 digitos
+//       .comEndereco(enderecoBeneficiario);
+//   }
+
+//   const createInstrucoes = () => {
+//     const instrucoes = [];
+//     instrucoes.push(`Não receber documento após o vencimento`);
+//     return instrucoes;
+//   }
+
+//   init();
+// })
 
 // this is our get method
 // this method fetches all available data in our database
@@ -142,7 +142,7 @@ router.get('/getData', (req, res) => {
   Produtos.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
-  }); 
+  });
 });
 
 router.get('/getProdutos', (req, res) => {
@@ -153,9 +153,22 @@ router.get('/getProdutos', (req, res) => {
 
 });
 
+router.get('/pesquisar', (req, res) => {
+  const regex = new RegExp(escapeRegex(req.query.nome), 'gi');
+
+  Produtos.find({ titulo: regex }, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    if (data.length === 0) {
+      return res.json({ success: false });
+      console.log(data)
+    } else {
+      return res.json({ success: true, data: data });
+    }
+  });
+});
 
 router.post('/getProdutoEsp', (req, res) => {
-  Produtos.find({tipo: req.body.pord}, (err, data) => {
+  Produtos.find({ tipo: req.body.pord }, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
@@ -172,7 +185,7 @@ router.post('/updateData', (req, res) => {
 });
 router.post('/putCard', (req, res) => {
   const { formData, email } = req.body;
-  Usuarios.findOneAndUpdate({email: email}, {$set: {cartao:{numero: formData.number, nome: formData.name, cvc: formData.cvc}}},  { returnOriginal: false }, (err, data) => {
+  Usuarios.findOneAndUpdate({ email: email }, { $set: { cartao: { numero: formData.number, nome: formData.name, cvc: formData.cvc } } }, { returnOriginal: false }, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
@@ -225,79 +238,79 @@ router.post('/putProd', (req, res) => {
 });
 
 // Adicionar Usuario
-  router.post('/putUser', (req, res) => {
-    const { nome, email, senha, senha2 } = req.body;
-    let erros = [];
+router.post('/putUser', (req, res) => {
+  const { nome, email, senha, senha2 } = req.body;
+  let erros = [];
 
-    // Checar campos obrigagatorios
-    if(!nome || !email || !senha || !senha2){
-      erros.push({msg: 'Por favor preencha todos os campos'})
-    } else if (senha.length < 6){
-      erros.push({msg: 'Senha tem que ter no minimo 6 caracteres'})
-    }
+  // Checar campos obrigagatorios
+  if (!nome || !email || !senha || !senha2) {
+    erros.push({ msg: 'Por favor preencha todos os campos' })
+  } else if (senha.length < 6) {
+    erros.push({ msg: 'Senha tem que ter no minimo 6 caracteres' })
+  }
 
-    // Checar se as duas senhas são iguais
-    if(senha !== senha2){
-      erros.push({msg: 'Senhas diferentes'})
-    }
+  // Checar se as duas senhas são iguais
+  if (senha !== senha2) {
+    erros.push({ msg: 'Senhas diferentes' })
+  }
 
-    if(erros.length > 0) {
-      return res.json({
-        success: false,
-        error: erros
-      });
-    } else {
-      // Valudação passou *dab
+  if (erros.length > 0) {
+    return res.json({
+      success: false,
+      error: erros
+    });
+  } else {
+    // Valudação passou *dab
 
-      Usuarios.findOne({ email: email })
-        .then(user => {
-          if(user){  // Se já esse email ja existir no banco de dados
-            erros.push({msg: 'Email já registrado'})
+    Usuarios.findOne({ email: email })
+      .then(user => {
+        if (user) {  // Se já esse email ja existir no banco de dados
+          erros.push({ msg: 'Email já registrado' })
 
-            return res.json({
-              success: false,
-              error: erros
-            });
-          } else { // Se já não existir
-              let NovoUsuario = new Usuarios({
-                nome,
-                email,
-                senha
+          return res.json({
+            success: false,
+            error: erros
+          });
+        } else { // Se já não existir
+          let NovoUsuario = new Usuarios({
+            nome,
+            email,
+            senha
+          });
+
+          // Criptografar senha
+          bcrypt.genSalt(10, (err, salt) =>
+            bcrypt.hash(NovoUsuario.senha, salt, (err, hash) => {
+              if (err) throw err;
+
+              // Mudar senha para criptografada
+              NovoUsuario.senha = hash;
+
+              //Salvar Usuario
+              NovoUsuario.save((err) => {
+                if (err) return res.json({ success: false, error: err });
+                return (res.json({ success: true }));
               });
+            }))
+        }
+      });
 
-              // Criptografar senha
-              bcrypt.genSalt(10, (err, salt) => 
-                bcrypt.hash(NovoUsuario.senha, salt, (err, hash) =>{
-                  if (err) throw err;
+  }
 
-                  // Mudar senha para criptografada
-                  NovoUsuario.senha = hash;
-                  
-                  //Salvar Usuario
-                  NovoUsuario.save((err) => {
-                    if (err) return res.json({ success: false, error: err });
-                    return (res.json({ success: true }));
-                  });
-                }))
-          }
-        });
-
-    }
-
-  });
+});
 
 // Login
 router.post('/login', (req, res) => {
   const { email, senha } = req.body;
 
-  if(!email || !senha ) {
+  if (!email || !senha) {
     return (res.json({ success: false, msg: 'Ambos os campos devem ser preenchidos' }));
   }
 
   Usuarios.findOne({
     email: email
   }).then(user => {
-    if(!user) {
+    if (!user) {
       return (res.json({ success: false, msg: 'Email não cadastrado' }));
     }
 
@@ -312,7 +325,11 @@ router.post('/login', (req, res) => {
     });
   })
 });
-  
+
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 // append /api for our http requests
 app.use('/api', router);
 
