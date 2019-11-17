@@ -1,0 +1,25 @@
+
+@media screen and (max-width: 992px) {
+    .conteinerConfirmarCompra{
+        display: flex;
+        flex-direction: column;
+    }    
+  }
+
+  @media screen and (min-width: 992px) {
+    .conteinerConfirmarCompra{
+        .metodoPagamento{
+            margin-right: 520px;
+            left: 0px;
+        }
+        table{
+            h4{
+                margin-top: 17px;
+                margin-left: 10px;
+            }
+            position: fixed;
+            width: 500px;
+            right: 20px;
+        }
+    }
+  }

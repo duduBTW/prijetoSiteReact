@@ -8,15 +8,17 @@ export const UsuarioContext = createContext();
 class UsuarioContextProvider extends Component {
     state = {
         email: null,
-        nome: null
+        nome: null,
+        cartao: null
     }
     componentDidMount() {
         var token = Cookies.get('token')
         if (token) {
             var decoded = jwt.verify(token, 'HifumiBestWaifu');
-            const { email, nome } = decoded.user
+            const { email, nome, cartao } = decoded.user
 
-            this.setState({ email, nome })
+            this.setState({ email, nome, cartao })
+            console.log(cartao)
         }
     }
 

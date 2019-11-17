@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { ProgressBar } from 'react-materialize';
-import { Link } from 'react-router-dom'
-import { storage } from '../firebase/index'
+import { CarrinhoContext } from './context/CarrinhoContext'
 import './css/styleProduto.css'
 import 'materialize-css/dist/css/materialize.min.css';
 import M from "materialize-css";
@@ -16,9 +15,12 @@ class Produto extends Component {
     state = {
         produto: null,
         titulo: null,
+        produtoNovo: null,
+        tituloNovo: null,
         itensHistorico: null,
         nome: null,
-        email: null
+        email: null,
+        editar: false
     }
     componentWillReceiveProps(props) {
         window.scrollTo(0, 0);
@@ -46,15 +48,15 @@ class Produto extends Component {
             }
         }
 
-        var token = Cookies.get('token')
-        if (token) {
-            var decoded = jwt.verify(token, 'HifumiBestWaifu');
-            const { email, nome } = decoded.user
-            this.setState({
-                email,
-                nome
-            })
-        }
+        // var token = Cookies.get('token')
+        // if (token) {
+        //     var decoded = jwt.verify(token, 'HifumiBestWaifu');
+        //     const { email, nome } = decoded.user
+        //     this.setState({
+        //         email,
+        //         nome
+        //     })
+        // }
     }
 
     addHistorico = (produto) => {
@@ -84,64 +86,16 @@ class Produto extends Component {
         }
     }
 
-    addCarrinho = () => {
-        // Meu deus esse codigo está caotico... what have I done
-        const produto = Cookies.get('produto')
-        if (!produto) {
-            this.state.produto.quantidade = 1
-            const produtoBase = [this.state.produto];
-            const produto = jwt.sign({ produtoBase }, 'HifumiBestWaifu');
-            Cookies.set('produto', produto);
-            this.props.history.push('/carrinho');
-        } else {
-            const produtoInicio = this.state.produto;
-            const produtoo = Cookies.get('produto')
-            var decoded = jwt.verify(produtoo, 'HifumiBestWaifu');
-
-            const produtoIgual = decoded.produtoBase.find(item => item.titulo === produtoInicio.titulo)
-            if (produtoIgual) {
-                let produtoBase = decoded.produtoBase.filter(item => item.titulo !== produtoIgual.titulo)
-                produtoIgual.quantidade = ++produtoIgual.quantidade
-                produtoBase = [...produtoBase, produtoIgual]
-
-                const produto = jwt.sign({ produtoBase }, 'HifumiBestWaifu');
-                Cookies.set('produto', produto);
-                this.props.history.push('/carrinho');
-            } else {
-                produtoInicio.quantidade = 1
-                const produtoBase = [...decoded.produtoBase, produtoInicio]
-                const produto = jwt.sign({ produtoBase }, 'HifumiBestWaifu');
-                Cookies.set('produto', produto);
-                this.props.history.push('/carrinho');
-            }
-        }
-    }
-
-    comprarBoleto = () => {
-        axios.post('http://localhost:3001/api/gerarBoleto', {
-            nome: `${this.state.nome}`,
-            titulo: `${this.state.produto.titulo.replace(/ /g, "_")}`,
-            preco: this.state.produto.preco,
-        }).then(res => {
-            // create the blob object with content-type "application/pdf"               
-            var blob = new Blob([res], { type: "application/pdf" });
-            console.log(res)
-            const uploadTask = storage.ref(`images/testePoggg55`).put(blob) // A primeira parte(ref) é o nome do arquivo, então eu vou colocar o nome do produto que a pessoa enviou
-            uploadTask.on('state_changed', (snapshot) => {
-                // Progresso
-            }, (error) => {
-                console.log(error)
-            }, () => {
-                // Completo
-                // storage.ref('images').child(titulo).getDownloadURL().then(url => {
-
-
-                //     })
-                console.log(':)')
-            })
-        })
-        // window.open(`http://localhost:3001/${this.state.produto.titulo.replace(/ /g, "_")}.pdf`,'_blank')
-    }
+    // comprarBoleto = () => {
+    //     axios.post('http://localhost:3001/api/gerarBoleto', {
+    //         nome: `${this.state.nome}`,
+    //         titulo: `${this.state.produto.titulo.replace(/ /g, "_")}`,
+    //         preco: this.state.produto.preco,
+    //     }).then(res => {
+    //         console.log(res)
+    //         window.open(`http://localhost:3001/${res.data.path}.pdf`, '_blank')
+    //     })
+    // }
 
     limparHistorioco = () => {
         this.setState({ itensHistorico: null })
@@ -149,29 +103,78 @@ class Produto extends Component {
         Cookies.remove('historico');
     }
 
+    static contextType = CarrinhoContext
+
     render() {
+
+        const { addCarrinho } = this.context
+        let today = new Date();
+
+        let ddInicio = String(today.getDate() + 2).padStart(2, '0');
+        let ddFinal = String(today.getDate() + 8).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+
         return (
             <div>
                 {this.state.produto !== null ? (
                     <div style={{ display: 'flex', flexDirection: 'column' }} >
                         <div className="produto">
-                            <div style={{ width: 518 }} className="img center" onLoad={() => {
+                            <div className="img" onLoad={() => {
                                 var elems = document.querySelectorAll('.materialboxed');
                                 M.Materialbox.init(elems);
                             }}>
-                                <img data-caption={this.state.produto.titulo} className="materialboxed" style={{ width: 518 }} src={this.state.produto.image} />
+                                <img data-caption={this.state.produto.titulo} className="materialboxed" src={this.state.produto.image} />
                             </div>
-                            <div className="infos">
-                                <h3>{this.state.produto !== null ? this.state.produto.titulo : <div>Carregando...</div>}</h3>
-                                <h4>{this.state.produto !== null ? <div><span className="grey-text">Preço:</span> <span className="green-text">R$:{this.state.produto.preco}</span></div> : null}</h4>
+
+
+
+                            <div className="comprar card">
+                                <div className="infos">
+                                    {this.state.editar ?
+                                        <div style={{ width: "100%" }}>
+                                            <input type="text" name="titulo" id="titulo" value={this.state.produto.titulo} />
+                                            <input type="number" name="preco" id="preco" value={this.state.produto.preco} />
+                                            <button className="btn black center"> Salvar </button>
+                                        </div>
+                                        :
+                                        <div>
+                                            <h4>
+                                                {this.state.produto !== null ? this.state.produto.titulo : <div>Carregando...</div>}
+                                            </h4>
+
+                                            <h4>
+                                                {this.state.produto !== null ?
+                                                    <div><span className="grey-text">Preço:</span> <span className="green-text">R$:{this.state.produto.preco}</span></div>
+                                                    :
+                                                    null
+                                                }
+                                            </h4>
+
+                                            <div className="frete">
+                                                <div className="green-text">Frete gratis</div>
+                                                <div> Chegará entre os dias {ddInicio}/{mm} e {ddFinal}/{mm} </div>
+                                            </div>
+
+                                        </div>
+                                    }
+                                </div>
+
+                                <div className="botoes" >
+                                    <button onClick={this.comprarBoleto} className="btn-large white black-text waves-effect waves-green">Comprar Agora</button>
+                                    <button
+                                        onClick={() => {
+                                            this.props.history.push('/carrinho')
+                                            addCarrinho(this.state.produto)
+                                        }}
+                                        className="btn-large black waves-effect waves-green"
+                                    >
+                                        Adicionar ao carrinho
+                                    </button>
+                                    {/* <button onClick={() => this.setState({ editar: !this.state.editar })} className="btn black waves-effect waves-green">Editar Item</button> */}
+                                </div>
                             </div>
-                            <div className="comprar">
-                                <button onClick={this.comprarBoleto} className="btn black waves-effect waves-green">Comprar Agora</button>
-                                <button onClick={this.addCarrinho} className="btn black waves-effect waves-green">Adicionar ao carrinho</button>
-                            </div>
-                            {
-                            }
                         </div>
+
                         <div>
                             {this.state.itensHistorico !== null ?
                                 <div>

@@ -3,6 +3,7 @@ import 'materialize-css/dist/css/materialize.min.css';
 import M from "materialize-css";
 import { UsuarioContext } from './context/UsuarioContext'
 import NavRender from './render/NavRender';
+import { CarrinhoContext } from './context/CarrinhoContext';
 
 class Nav extends Component {
 
@@ -17,10 +18,20 @@ class Nav extends Component {
         M.Sidenav.init(elems);
     }
     render() {
-        // const { nome } = this.props
-        const { nome } = this.context
         return (
-            <NavRender nome={nome} sidenavClose={this.sidenavClose} />
+            <CarrinhoContext.Consumer>{(carrinho) => {
+                return (
+                    <UsuarioContext.Consumer>{(usuario) => {
+                        const { nome } = usuario;
+                        const { itemTotal } = carrinho
+                        return (
+                            <NavRender nome={nome} itemTotal={itemTotal} sidenavClose={this.sidenavClose} />
+                        )
+                    }}
+                    </UsuarioContext.Consumer>
+                )
+            }}
+            </CarrinhoContext.Consumer>
         )
     }
 }

@@ -17,8 +17,11 @@ class AdcProduto extends Component {
         progresso: 0,
         erro: null
     }
+    componentDidMount() {
+        M.FormSelect.init(document.querySelectorAll("select"))
+    }
     adcProdToDB = (titulo, preco, tipo, url) => {
-        let erro 
+        let erro
         if (titulo === null || preco === null || tipo === null || this.state.image === null) {
             // this.setState({ erro: 'Por favor preencha todos os campos e selecione uma imagem' })
             erro = 'Por favor preencha todos os campos e selecione uma imagem'
@@ -56,9 +59,9 @@ class AdcProduto extends Component {
                 })
             })
         }
-        if(erro){
+        if (erro) {
             M.Toast.dismissAll();
-            M.toast({html: erro, displayLength: 6000})
+            M.toast({ html: erro, displayLength: 6000 })
         }
     };
     aoMudar = (e) => {
@@ -80,30 +83,30 @@ class AdcProduto extends Component {
                     {/* <select style={{ display: 'block' }} onChange={e => { this.setState({ tipo: e.target.value }) }}>
                         
                     </select> */}
-                        <div className="file-field input-field">
+                    <div className="file-field input-field">
                         <div className="btn black">
                             <span>Imagem</span>
-                            <input 
-                            type="file"
-                            onChange={this.aoMudar}
-                            accept=".png, .jpg, .jpeg, .gif"
+                            <input
+                                type="file"
+                                onChange={this.aoMudar}
+                                accept=".png, .jpg, .jpeg, .gif"
                             ></input>
                         </div>
                         <div className="file-path-wrapper">
                             <input className="file-path validate" type="text"></input>
                         </div>
-                        </div>
-                    <div className="input-field" style={{width: "100%"}} onChange={e => { this.setState({ tipo: e.target.value }) }}>
-                        <select style={{ display: 'block' }}>
-                        <option value="" disabled selected>Escolha uma categoria</option>
-                        <option value="celular">Celular</option>
-                        <option value="perifericos">Periferico</option>
-                        <option value="computadores">Computador</option>
-                        <option value="consoles">Console</option>
+                    </div>
+                    <div className="input-field" style={{ width: "100%" }} onChange={e => { this.setState({ tipo: e.target.value }) }}>
+                        <select>
+                            <option value="" disabled selected>Escolha uma categoria</option>
+                            <option value="celular">Celular</option>
+                            <option value="perifericos">Periferico</option>
+                            <option value="computadores">Computador</option>
+                            <option value="consoles">Console</option>
                         </select>
                     </div>
                     <div>
-                        
+
                         {/* <input
                             accept=".png, .jpg, .jpeg, .gif"
                             style={{ display: 'none' }}

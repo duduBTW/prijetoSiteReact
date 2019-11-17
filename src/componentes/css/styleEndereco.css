@@ -1,0 +1,20 @@
+.conteinerEndereco {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 30px;
+  margin-left: 30vw;
+  width: 500px;
+}
+
+@media screen and (max-width: 992px) {
+  .conteinerEndereco {
+    width: 100vw;
+    margin-left: 0px;
+  }
+}
+/*# sourceMappingURL=styleEndereco.css.map */

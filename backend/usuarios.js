@@ -12,7 +12,7 @@ const UsuarioSchema = new Schema(
     email: {
       type: String,
       required: true
-    }, 
+    },
     senha: {
       type: String,
       required: true
@@ -22,6 +22,18 @@ const UsuarioSchema = new Schema(
       nome: String,
       cvc: Number
     },
+    endereco: {
+      nomeDestinatario: String,
+      cep: Number,
+      endereco: String,
+      numero: Number,
+      bairro: String,
+      cidade: String,
+      estado: String,
+    },
+    idProduto: [{
+      type: String
+    }],
     data: {
       type: Date,
       default: Date.now

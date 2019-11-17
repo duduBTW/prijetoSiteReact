@@ -15,6 +15,7 @@ class InicioEsp extends Component {
     }
     componentWillMount() {
         // Quando você clica no filtro
+        this.setState({ dataUsuarios: null })
         if (this.props.match !== undefined) {
             if (this.props.match.params.filtro === 'todos') {
                 this.props.history.push('/');
@@ -25,6 +26,7 @@ class InicioEsp extends Component {
     }
     componentWillReceiveProps(props) {
         // Quando você clica no filtro
+        this.setState({ dataUsuarios: null })
         if (this.props.dataUsuarios !== []) {
             if (props.match.params.filtro === 'todos') {
                 this.props.history.push('/');
@@ -38,26 +40,38 @@ class InicioEsp extends Component {
         axios.post('https://restprojeto.herokuapp.com/api/getProdutoEsp', {
             pord: prod
         })
-            .then(dat => this.setState({ dataUsuarios: dat.data.data }));
+            .then(dat => {
+                this.setState({ dataUsuarios: dat.data.data })
+            });
     };
     render() {
         const { dataUsuarios } = this.state
         return (
             <div className="">
-                {dataUsuarios.length <= 0
-                    ? <div><ProgressBar /></div>
+                {dataUsuarios !== null ?
+                    null
                     :
+                    <div className="progresso">
+                        <ProgressBar />
+                    </div>
+                }
+                <div>
                     <div className="tudos">
                         <div className="hide-on-med-and-down">
                             <SideBar data={this.props.data} />
                         </div>
-                        <ul className="ulItens" style={{ display: 'flex', 'flexFlow': 'row wrap', 'justifyContent': 'center' }}>
-                            {dataUsuarios.map((dat) => (
-                                <Item key={dat._id} data={dat} />
-                            ))}
-                        </ul>
+                        {dataUsuarios !== null ?
+                            <ul className="ulItens" style={{ display: 'flex', 'flexFlow': 'row wrap', 'justifyContent': 'center' }}>
+                                {dataUsuarios.map((dat) => (
+                                    <Item key={dat._id} data={dat} />
+                                ))}
+                            </ul>
+                            :
+                            null
+                        }
                     </div>
-                }
+                </div>
+
                 <BottomBar />
             </div>
         )

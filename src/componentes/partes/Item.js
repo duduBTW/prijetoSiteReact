@@ -23,7 +23,7 @@ const Item = (data) => {
         fontSize: 17
     }
     return (
-        <div className="img" data-aos-duration="270" data-aos="fade-up" data-aos-easing="ease-out-cubic" >
+        <div className="img" data-aos-duration="270" data-aos="fade-up" data-aos-easing="ease-out-cubic" data-aos-anchor-placement="top-bottom" >
             <li style={item} className="center item">
                 <Link style={{ color: "black", height: 'auto', width: 270, margin: 0 }} key={dat._id} to={`/produto/${dat.titulo.replace(/ /g, "_")}`}>
                     <div><img style={{ height: 300, width: 270 }} src={dat.image} alt={dat.titulo} /></div>

@@ -1,0 +1,28 @@
+@media screen and (max-width: 992px) {
+  .conteinerConfirmarCompra {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .conteinerConfirmarCompra .metodoPagamento {
+    margin-right: 520px;
+    left: 0px;
+  }
+  .conteinerConfirmarCompra table {
+    position: fixed;
+    width: 500px;
+    right: 20px;
+  }
+  .conteinerConfirmarCompra table h4 {
+    margin-top: 17px;
+    margin-left: 10px;
+  }
+}
+/*# sourceMappingURL=styleConfirmarCompra.css.map */

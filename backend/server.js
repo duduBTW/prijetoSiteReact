@@ -10,6 +10,7 @@ const logger = require('morgan');
 const Data = require('./data');
 const Produtos = require('./produtos');
 const Usuarios = require('./usuarios');
+const Compra = require('./compras');
 const bcrypt = require('bcryptjs');
 
 const API_PORT = process.env.PORT || 3001;
@@ -40,101 +41,99 @@ app.use(logger('dev'));
 
 app.use(express.static(path.join(__dirname, '..', 'temp')))
 
-// router.post('/gerarBoleto', (req, res) =>{
-//   const init = () => {
-//     const boleto = createBoleto();
+router.post('/gerarBoleto', (req, res) => {
+  const init = () => {
+    const boleto = createBoleto();
 
-//     const dir = '../temp'
-//     if (!fs.existsSync(dir)) fs.mkdirSync(dir);
-//     const writeStream = fs.createWriteStream(`../temp/${req.body.titulo}.pdf`);
+    const dir = '../temp'
+    const data = Date.now()
 
-//     new Gerador.boleto.Gerador(boleto).gerarPDF({
-//       creditos: '',
-//       stream: writeStream
-//     }, (err, pdf) => {
-//       if (err) return console.error(err);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+    const writeStream = fs.createWriteStream(`../temp/${req.body.titulo}_${data}.pdf`);
 
-//       writeStream.on('finish', () => {
-//         console.log('written on temp!');
-//       });
-//       var file = fs.createReadStream(`../temp/${req.body.titulo}.pdf`);
-//       res.setHeader('Content-Type', 'application/pdf');
-//       res.setHeader('Content-Disposition', 'attachment; filename=quote.pdf');
-//       file.pipe(res);
-//       // return res.redirect(path.join(__dirname, '../temp', 'boleto-cecred.pdf'))
-//       // return res.json({ success: path.join(__dirname, '../temp', 'boleto-cecred.pdf') });
-//     });
-//   }
+    new Gerador.boleto.Gerador(boleto).gerarPDF({
+      creditos: '',
+      stream: writeStream
+    }, (err, pdf) => {
+      if (err) return console.error(err);
 
-//   const createBoleto = () => {
-//     const Datas = Gerador.boleto.Datas;
-//     const bancos = Gerador.boleto.bancos;
-//     const pagador = createPagador();
-//     const beneficiario = createBeneficiario();
-//     const instrucoes = createInstrucoes();
+      writeStream.on('finish', () => {
+        console.log('written on temp!');
+        return res.json({ success: true, path: `${req.body.titulo}_${data}` });
+      });
+    });
+  }
 
-//     let today = new Date();
-//     let dd = today.getDate();
-//     let mm = today.getMonth();
-//     let yyyy = today.getFullYear();
+  const createBoleto = () => {
+    const Datas = Gerador.boleto.Datas;
+    const bancos = Gerador.boleto.bancos;
+    const pagador = createPagador();
+    const beneficiario = createBeneficiario();
+    const instrucoes = createInstrucoes();
 
-//     return Gerador.boleto.Boleto.novoBoleto()
-//       .comDatas(Datas.novasDatas()
-//         .comVencimento(dd + 2, mm, yyyy)
-//         .comProcessamento(dd, mm, yyyy)
-//         .comDocumento(dd, mm, yyyy))
-//       .comBeneficiario(beneficiario)
-//       .comPagador(pagador)
-//       .comBanco(new bancos.Cecred())
-//       .comValorBoleto(req.body.preco) //Apenas duas casas decimais
-//       .comNumeroDoDocumento(1001)
-//       .comEspecieDocumento('DM') //Duplicata de Venda Mercantil
-//       .comInstrucoes(instrucoes);
-//   }
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth();
+    let yyyy = today.getFullYear();
 
-//   const createPagador = () => {
-//     const enderecoPagador = Gerador.boleto.Endereco.novoEndereco()
-//       .comLogradouro('Rua Maria Aparecisa Bargosa guimarães')
-//       .comBairro('Centro')
-//       .comCidade('Guarulhos')
-//       .comUf('SP')
-//       .comCep('088882')
+    return Gerador.boleto.Boleto.novoBoleto()
+      .comDatas(Datas.novasDatas()
+        .comVencimento(dd + 2, mm, yyyy)
+        .comProcessamento(dd, mm, yyyy)
+        .comDocumento(dd, mm, yyyy))
+      .comBeneficiario(beneficiario)
+      .comPagador(pagador)
+      .comBanco(new bancos.Bradesco())
+      .comValorBoleto(req.body.preco) //Apenas duas casas decimais
+      .comNumeroDoDocumento(1001)
+      .comEspecieDocumento('DM') //Duplicata de Venda Mercantil
+      .comLocaisDePagamento(['Em qualquer banco até o vencimento'])
+      .comInstrucoes(instrucoes);
+  }
 
-//     return Gerador.boleto.Pagador.novoPagador()
-//       .comNome(req.body.nome)
-//       .comRegistroNacional('72285732503')
-//       .comEndereco(enderecoPagador)
-//   }
+  const createPagador = () => {
+    const enderecoPagador = Gerador.boleto.Endereco.novoEndereco()
+      .comLogradouro('Rua Pedro Lessa, 15')
+      .comBairro('Centro')
+      .comCidade('Rio de Janeiro')
+      .comUf('RJ')
+      .comCep('20030-030')
 
-//   const createBeneficiario = () => {
-//     const enderecoBeneficiario = Gerador.boleto.Endereco.novoEndereco()
-//       .comLogradouro('Rua Maria Aparecisa, 117')
-//       .comBairro('Consolação')
-//       .comCidade('São Paulo')
-//       .comUf('SP')
-//       .comCep('01301100')
+    return Gerador.boleto.Pagador.novoPagador()
+      .comNome(req.body.nome)
+      .comRegistroNacional('72285732503')
+      .comEndereco(enderecoPagador)
+  }
 
-//     return Gerador.boleto.Beneficiario.novoBeneficiario()
-//       .comNome('Happy hardware LTDA')
-//       .comRegistroNacional('43576788000191')
-//       .comNumeroConvenio('123456')
-//       .comCarteira('09')
-//       .comAgencia('0101')
-//       .comDigitoAgencia('5')
-//       .comCodigoBeneficiario('03264467')
-//       .comDigitoCodigoBeneficiario('0')
-//       .comNossoNumero('00115290000000004') //17 digitos
-//       .comEndereco(enderecoBeneficiario);
-//   }
+  const createBeneficiario = () => {
+    const enderecoBeneficiario = Gerador.boleto.Endereco.novoEndereco()
+      .comLogradouro('Rua da Consolação, 1500')
+      .comBairro('Consolação')
+      .comCidade('São Paulo')
+      .comUf('SP')
+      .comCep('01301100')
 
-//   const createInstrucoes = () => {
-//     const instrucoes = [];
-//     instrucoes.push(`Não receber documento após o vencimento`);
-//     return instrucoes;
-//   }
+    return Gerador.boleto.Beneficiario.novoBeneficiario()
+      .comNome('Happy hardware LTDA')
+      .comRegistroNacional('43576788000191')
+      .comCarteira('09')
+      .comAgencia('0101')
+      .comDigitoAgencia('5')
+      .comCodigoBeneficiario('0326446')
+      .comDigitoCodigoBeneficiario('0')
+      .comNossoNumero('00000000061') //11 -digitos // "00000005752"
+      .comDigitoNossoNumero('8') // 1 digito // 8
+      .comEndereco(enderecoBeneficiario);
+  }
 
-//   init();
-// })
+  const createInstrucoes = () => {
+    const instrucoes = [];
+    instrucoes.push(`Não aceitar documento após o vencimento`);
+    return instrucoes;
+  }
+
+  init();
+})
 
 // this is our get method
 // this method fetches all available data in our database
@@ -183,6 +182,15 @@ router.post('/updateData', (req, res) => {
     return res.json({ success: true });
   });
 });
+
+router.post('/updatePerfil', (req, res) => {
+  const { email, nome, cpf, emailAntigo } = req.body;
+  Usuarios.findOneAndUpdate({ email: emailAntigo }, { $set: { nome: nome } }, { returnOriginal: false }, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
 router.post('/putCard', (req, res) => {
   const { formData, email } = req.body;
   Usuarios.findOneAndUpdate({ email: email }, { $set: { cartao: { numero: formData.number, nome: formData.name, cvc: formData.cvc } } }, { returnOriginal: false }, (err, data) => {
@@ -296,7 +304,6 @@ router.post('/putUser', (req, res) => {
       });
 
   }
-
 });
 
 // Login
@@ -324,6 +331,40 @@ router.post('/login', (req, res) => {
       }
     });
   })
+});
+
+//Compra 
+
+router.post('/putCompra', (req, res) => {
+  const { itensCarrinho } = req.body;
+
+  itensCarrinho.forEach(element => {
+    // const item = element;
+    const titulo = element.titulo
+    const preco = element.preco
+    const quantidade = element.quantidade
+
+    let NovaCompra = new Compra({
+      titulo,
+      preco,
+      quantidade
+    });
+
+    NovaCompra.save((err) => {
+      if (err) return res.json({ success: false, error: err });
+    });
+  });
+
+  return res.json({ success: true });
+});
+
+router.post('/updateEndereco', (req, res) => {
+  console.log(req.body)
+  // const { formData, email } = req.body;
+  // Usuarios.findOneAndUpdate({ email: email }, { $set: { cartao: { numero: formData.number, nome: formData.name, cvc: formData.cvc } } }, { returnOriginal: false }, (err, data) => {
+  //   if (err) return res.json({ success: false, error: err });
+  //   return res.json({ success: true, data: data });
+  // });
 });
 
 function escapeRegex(text) {

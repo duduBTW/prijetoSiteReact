@@ -1,0 +1,14 @@
+.conteinerEndereco{
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    margin-left: 30vw;
+    width: 500px;
+}
+
+@media screen and (max-width: 992px) {
+    .conteinerEndereco{
+        width: 100vw;
+        margin-left: 0px;
+    }
+}

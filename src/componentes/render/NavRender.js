@@ -4,7 +4,7 @@ import 'materialize-css/dist/css/materialize.min.css';
 import M from "materialize-css";
 
 export default function NavRender(props) {
-    const { nome, sidenavClose } = props
+    const { nome, sidenavClose, itemTotal } = props
     return (
         <div>
             <div className="navbar-fixed">
@@ -32,14 +32,17 @@ export default function NavRender(props) {
                                 <li><Link
                                     data-position="bottom"
                                     data-tooltip="Carrinho"
-                                    style={{ marginTop: 3 }}
+                                    style={{ marginTop: 3, position: "relative" }}
                                     className="tooltipped"
                                     onMouseEnter={() => {
                                         var elems = document.querySelectorAll('.tooltipped');
                                         M.Tooltip.init(elems, { margin: 0, enterDelay: 100, exitDelay: 0 });
                                     }}
-                                    to="/carrinho"><i className="material-icons">shopping_basket</i></Link></li>
-
+                                    to="/carrinho"><i className="material-icons">shopping_basket</i>
+                                </Link></li>
+                                <li style={{ lineHeight: "45px" }}>
+                                    {itemTotal ? <small style={{ color: "white" }}>{itemTotal}</small> : null}
+                                </li>
                                 {nome === null ? (
                                     <span>
                                         <li><Link to="/registrar">Criar Conta</Link></li>
@@ -75,6 +78,7 @@ export default function NavRender(props) {
                         style={{ marginTop: 3 }}
                         to="/carrinho">Carrinho
                     <i className="material-icons">shopping_basket</i>
+                        {itemTotal ? <span class="new badge black" data-badge-caption={itemTotal > 1 ? "itens" : "item"} >{itemTotal}</span> : null}
                     </Link>
                 </li>
                 <li >
@@ -112,6 +116,6 @@ export default function NavRender(props) {
                     </div>
                 }
             </ul>
-        </div>
+        </div >
     )
 }

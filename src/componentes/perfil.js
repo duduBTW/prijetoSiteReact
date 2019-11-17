@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import * as Cookies from 'es-cookie';
+import axios from 'axios';
 // import { Link } from 'react-router-dom'
 import './css/stylePerfil.css'
 import MostrarCartao from './verCartao';
+import Endereco from './partes/endereco';
 // import Cartao from './creditCard'
 import 'materialize-css/dist/css/materialize.min.css';
 import M from "materialize-css";
@@ -21,7 +23,12 @@ class perfil extends Component {
     state = {
         email: '',
         nome: '',
-        cpf: null
+        cpf: null,
+        nomeDestinatario: '',
+        estado: '',
+        cep: '',
+        bairro: '',
+        numero: ''
     }
 
     componentDidMount() {
@@ -67,9 +74,20 @@ class perfil extends Component {
 
         this.props.history.push('/entrar');
     }
+
+    salvarAlteracoes = () => {
+        const { email, nome, cpf } = this.state
+        axios.post('http://localhost:3001/api/updatePerfil', {
+            email,
+            nome,
+            cpf: cpf.replace(/\s/g, ''),
+            emailAntigo: this.context.email
+        })
+    }
+
     render() {
         const { cartao } = this.state
-        const { nome, email } = this.state
+        const { nome, email, estado } = this.state
         return (
             <div className="tudo">
                 <div>
@@ -86,13 +104,13 @@ class perfil extends Component {
                         <li className="tab right"><button className="black btn" onClick={this.Sair}>Sair</button></li>
                     </ul> */}
                 <ul id="tabs-swipe-demo" className="tabs">
-                    <li className="tab col s3"><a className="active" href="#test-swipe-1">Inicio</a></li>
+                    <li className="tab col s3"><a className="active" href="#swpeInicio">Inicio</a></li>
                     <li className="tab col s3"><a href="#test-swipe-2">Cartão</a></li>
-                    {/* <li className="tab col s3"><a href="#test-swipe-3">Editar Cartão</a></li> */}
+                    <li className="tab col s3"><a href="#test-swipe-3">Endereço</a></li>
                     <li className="tab col s3"><a href="#test-swipe-4">Editar Conta</a></li>
                     <li className="tab right"><button className="black btn" onClick={this.Sair}>Sair</button></li>
                 </ul>
-                <div id="test-swipe-1">
+                <div id="swpeInicio">
                     <div style={{ display: "flex", justifyContent: "center", marginTop: "4%" }}>
                         <img style={{ width: "50%" }} src="https://steamuserimages-a.akamaihd.net/ugc/1001393370184877162/3EAA5212E7118DFFF86C26BC70E3E6245E23C9C8/" />
                     </div>
@@ -113,9 +131,13 @@ class perfil extends Component {
                             </button>
                     </div>
                 </div>
-                {/* <div id="test-swipe-3"><Cartao attCartao={this.attCartao} email={email} /></div> */}
+
+                <div id="test-swipe-3" style={{ width: '90vw' }}>
+                    <Endereco />
+                </div>
+
                 <div id="test-swipe-4">
-                    <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginTop: "4%" }} >
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "4%" }} >
                         <div className="input-field">
                             <input className="validate" type="email" name="email" id="email" value={email} onChange={this.aomudar} />
                             <label className="active" for="email">Editar Email</label>
@@ -134,6 +156,7 @@ class perfil extends Component {
                                 style={{ margin: 20 }}
                                 className="btn black"
                                 onClick={() => {
+                                    this.salvarAlteracoes()
                                     var instance = M.Tabs.init(document.querySelector('.tabs'));
                                     instance.select('test-swipe-1');
                                 }}>Salvar Alterações

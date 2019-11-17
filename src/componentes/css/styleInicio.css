@@ -12,6 +12,9 @@
   .tudos .ulItens {
     margin: 40px 0px 40px 250px;
   }
+  .tudos .progresso {
+    margin-left: 250px;
+  }
 }
 
 @media screen and (max-width: 992px) {
