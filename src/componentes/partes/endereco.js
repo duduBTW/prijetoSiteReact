@@ -3,8 +3,7 @@ import axios from 'axios';
 import { UsuarioContext } from '../context/UsuarioContext'
 import '../css/styleEndereco.css'
 import $ from 'jquery';
-let Correios = require('node-correios');
-let correios = new Correios();
+import M from "materialize-css";
 
 export default class Endereco extends Component {
 
@@ -29,27 +28,53 @@ export default class Endereco extends Component {
         let Correios = require('node-correios');
         let correios = new Correios();
 
-        correios.consultaCEP({ cep: cep })
+        axios.get(`https://viacep.com.br/ws/${cep}/json`)
             .then(result => {
-                const { bairro, logradouro, uf, localidade } = result
+                const { bairro, logradouro, uf, localidade, erro } = result.data
 
-                this.setState({
-                    endereco: logradouro,
-                    bairro,
-                    cidade: localidade,
-                    estado: uf
-                })
+                if (erro) {
+                    M.Toast.dismissAll();
+                    M.toast({ html: "Endereço não encontrado, tente novamente", displayLength: 6000, classes: 'red' })
+                } else {
+                    this.setState({
+                        endereco: logradouro,
+                        bairro,
+                        cidade: localidade,
+                        estado: uf
+                    })
 
-
-                $('#endereco').select();
-                $('#bairro').select();
-                $('#cidade').select();
-                $('#numero').select();
-                $('#estado').val(uf)
+                    $('#endereco').select();
+                    $('#bairro').select();
+                    $('#cidade').select();
+                    $('#numero').select();
+                    $('#estado').val(uf)
+                }
             })
             .catch(error => {
                 console.log(error)
             });
+
+        // correios.consultaCEP({ cep: cep })
+        //     .then(result => {
+        //         const { bairro, logradouro, uf, localidade } = result
+
+        //         this.setState({
+        //             endereco: logradouro,
+        //             bairro,
+        //             cidade: localidade,
+        //             estado: uf
+        //         })
+
+
+        //         $('#endereco').select();
+        //         $('#bairro').select();
+        //         $('#cidade').select();
+        //         $('#numero').select();
+        //         $('#estado').val(uf)
+        //     })
+        //     .catch(error => {
+        //         console.log(error)
+        //     });
     }
 
     aomudar = (e) => {
@@ -81,12 +106,13 @@ export default class Endereco extends Component {
                 </div>
 
                 <div className="input-field">
-                    <input type="number" name="cep" id="cep"
+                    <input type="text" name="cep" id="cep"
+                        maxLength="8"
                         onChange={(e) => {
                             if (e.target.value.length >= 8) {
                                 this.enderecoCep(e.target.value)
                             } else {
-                                this.aomudar(e)
+                                e.target.value = e.target.value.replace(/[^\d]/, '')
                             }
                         }}
                     />
