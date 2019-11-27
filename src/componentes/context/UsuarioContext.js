@@ -9,21 +9,21 @@ class UsuarioContextProvider extends Component {
     state = {
         email: null,
         nome: null,
-        cartao: null
+        cartao: null,
+        endereco: null
     }
     componentDidMount() {
         var token = Cookies.get('token')
         if (token) {
             var decoded = jwt.verify(token, 'HifumiBestWaifu');
-            const { email, nome, cartao } = decoded.user
+            const { email, nome, cartao, endereco } = decoded.user
 
-            this.setState({ email, nome, cartao })
-            console.log(cartao)
+            this.setState({ email, nome, cartao, endereco })
         }
     }
 
-    addProp = (email, nome) => {
-        this.setState({ nome, email })
+    addProp = (email, nome, cartao, endereco) => {
+        this.setState({ nome, email, cartao, endereco })
     }
     render() {
         return (

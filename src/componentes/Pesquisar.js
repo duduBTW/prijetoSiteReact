@@ -15,7 +15,7 @@ export default function Pesquisar() {
     const enviarPesquisar = (e) => {
         e.preventDefault();
 
-        const url = new URL('http://localhost:3001/api/pesquisar')
+        const url = new URL('https://restprojeto.herokuapp.com/api/pesquisar')
         const parametros = { nome: pesquisar }
         url.search = new URLSearchParams(parametros)
 

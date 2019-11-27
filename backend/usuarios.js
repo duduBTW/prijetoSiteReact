@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// this will be our data base's data structure 
+// Esquema Usuario 
 const UsuarioSchema = new Schema(
   {
     nome: {
@@ -31,9 +31,9 @@ const UsuarioSchema = new Schema(
       cidade: String,
       estado: String,
     },
-    idProduto: [{
+    idProduto: {
       type: String
-    }],
+    },
     data: {
       type: Date,
       default: Date.now

@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// this will be our data base's data structure 
+// Esquema Compras 
 const ComprasSchema = new Schema(
     {
         titulo: {
@@ -17,11 +17,11 @@ const ComprasSchema = new Schema(
             type: String,
             required: true
         }
-        // ,
-        // idUsuario: {
-        //     type: String,
-        //     required: true
-        // }
+        ,
+        idUsuario: {
+            type: String,
+            required: true
+        }
     }
 );
 

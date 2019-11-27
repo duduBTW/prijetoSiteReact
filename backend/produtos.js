@@ -2,13 +2,15 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// this will be our data base's data structure 
+// Esquema dos produtos 
 const ProdutosSchema = new Schema(
   {
     titulo: String,
     tipo: String,
     preco: Number,
-    image: String
+    image: String,
+    descricao: String,
+    quantidadeEstoque: Number
   },
   { timestamps: true }
 );

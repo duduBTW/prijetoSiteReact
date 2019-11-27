@@ -360,11 +360,11 @@ router.post('/putCompra', (req, res) => {
 
 router.post('/updateEndereco', (req, res) => {
   console.log(req.body)
-  // const { formData, email } = req.body;
-  // Usuarios.findOneAndUpdate({ email: email }, { $set: { cartao: { numero: formData.number, nome: formData.name, cvc: formData.cvc } } }, { returnOriginal: false }, (err, data) => {
-  //   if (err) return res.json({ success: false, error: err });
-  //   return res.json({ success: true, data: data });
-  // });
+  const { nomeDestinatario, bairro, cep, cidade, endereco, estado, numero, email } = req.body;
+  Usuarios.findOneAndUpdate({ email: email }, { $set: { endereco: { nomeDestinatario, bairro, cep, cidade, endereco, estado, numero } } }, { returnOriginal: false }, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
 });
 
 function escapeRegex(text) {

@@ -34,7 +34,7 @@ export default class Endereco extends Component {
 
                 if (erro) {
                     M.Toast.dismissAll();
-                    M.toast({ html: "Endereço não encontrado, tente novamente", displayLength: 6000, classes: 'red' })
+                    M.toast({ html: "Cep não encontrado, tente novamente", displayLength: 6000, classes: 'red darken-3' })
                 } else {
                     this.setState({
                         endereco: logradouro,
@@ -86,9 +86,15 @@ export default class Endereco extends Component {
     salvarEndereco = () => {
         const { nomeDestinatario, bairro, cep, cidade, endereco, estado, numero } = this.state
         const { email } = this.context
-        axios.post('http://localhost:3001/api/updateEndereco', {
-            nomeDestinatario, bairro, cep, cidade, endereco, estado, numero, email
-        })
+        if (!nomeDestinatario || !bairro || !cep || !cidade || !endereco || !numero) {
+            M.Toast.dismissAll();
+            M.toast({ html: "Todos os campos devem ser preenchidos", displayLength: 6000, classes: 'red darken-3' })
+            console.log(this.state)
+        } else {
+            axios.post('https://restprojeto.herokuapp.com/api/updateEndereco', {
+                nomeDestinatario, bairro, cep, cidade, endereco, estado, numero, email
+            })
+        }
     }
 
     render() {
@@ -111,6 +117,7 @@ export default class Endereco extends Component {
                         onChange={(e) => {
                             if (e.target.value.length >= 8) {
                                 this.enderecoCep(e.target.value)
+                                this.aomudar(e)
                             } else {
                                 e.target.value = e.target.value.replace(/[^\d]/, '')
                             }

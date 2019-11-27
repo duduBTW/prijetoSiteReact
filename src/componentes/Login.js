@@ -35,7 +35,7 @@ class AdcProduto extends Component {
     entrar = (email, senha) => {
         if (!email || !senha) {
             M.Toast.dismissAll();
-            M.toast({ html: "Ambos os campos devem ser preenchidos", displayLength: 6000 })
+            M.toast({ html: "Ambos os campos devem ser preenchidos", displayLength: 6000, classes: 'red darken-3' })
         } else {
             axios.post('https://restprojeto.herokuapp.com/api/login', {
                 email, senha
@@ -50,7 +50,7 @@ class AdcProduto extends Component {
 
                         // Adiciona cookie
                         Cookies.set('token', token);
-                        addProp(user.email, user.nome)
+                        addProp(user.email, user.nome, user.cartao, user.endereco)
 
                         this.props.history.push('/perfil');
                     } else {
