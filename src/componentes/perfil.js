@@ -112,7 +112,7 @@ class perfil extends Component {
                 </ul>
                 <div id="swpeInicio">
                     <div style={{ display: "flex", justifyContent: "center", marginTop: "4%" }}>
-                        <img style={{ width: "50%" }} src="https://steamuserimages-a.akamaihd.net/ugc/1001393370184877162/3EAA5212E7118DFFF86C26BC70E3E6245E23C9C8/" />
+                        <img style={{ width: "40%" }} src="https://steamuserimages-a.akamaihd.net/ugc/1001393370184877162/3EAA5212E7118DFFF86C26BC70E3E6245E23C9C8/" />
                     </div>
                 </div>
                 <div id="test-swipe-2">
@@ -133,7 +133,7 @@ class perfil extends Component {
                 </div>
 
                 <div id="test-swipe-3" style={{ width: '90vw' }}>
-                    <Endereco />
+                    <Endereco {...this.props} />
                 </div>
 
                 <div id="test-swipe-4">

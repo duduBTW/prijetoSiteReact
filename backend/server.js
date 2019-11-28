@@ -336,7 +336,7 @@ router.post('/login', (req, res) => {
 //Compra 
 
 router.post('/putCompra', (req, res) => {
-  const { itensCarrinho } = req.body;
+  const { itensCarrinho, email } = req.body;
 
   itensCarrinho.forEach(element => {
     // const item = element;
@@ -347,17 +347,26 @@ router.post('/putCompra', (req, res) => {
     let NovaCompra = new Compra({
       titulo,
       preco,
-      quantidade
+      quantidade,
+      usuario: req.body.email
     });
 
     NovaCompra.save((err) => {
       if (err) return res.json({ success: false, error: err });
     });
+
   });
 
   return res.json({ success: true });
 });
 
+router.post('/getCompras', (req, res) => {
+  Compra.find({ usuario: req.body.email }, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+
+});
 router.post('/updateEndereco', (req, res) => {
   console.log(req.body)
   const { nomeDestinatario, bairro, cep, cidade, endereco, estado, numero, email } = req.body;

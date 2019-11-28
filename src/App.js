@@ -20,6 +20,7 @@ import * as Cookies from 'es-cookie';
 import MostrarCartao from './componentes/verCartao';
 import UsuarioContextProvider from './componentes/context/UsuarioContext';
 import Pesquisar from './componentes/Pesquisar';
+import MinhasCompras from './componentes/minhasCompras';
 import DataContextProvider from './componentes/context/DataContext';
 import ConfirmarCompra from './componentes/confirmarCompra';
 import CarrinhoContextProvider from './componentes/context/CarrinhoContext';
@@ -85,6 +86,7 @@ class App extends Component {
           <Route exact path="/entrar" render={(props) => <Login {...props} />} />
           <Route exact path="/addImage" render={(props) => <ImageUpload {...props} />} />
           <Route exact path="/carrinho" render={(props) => <Carrinho {...props} />} />
+          <Route exact path="/compras" render={(props) => <MinhasCompras {...props} />} />
           <Route path="/perfil" render={(props) => <Perfil {...props} />} />
           <Route path="/perfil/card" render={(props) => <Cartao {...props} email={email} />} />
           <Route path="/perfil/verCartao" render={(props) => <MostrarCartao {...props} />} />

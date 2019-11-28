@@ -86,16 +86,7 @@ class Produto extends Component {
         }
     }
 
-    // comprarBoleto = () => {
-    //     axios.post('http://localhost:3001/api/gerarBoleto', {
-    //         nome: `${this.state.nome}`,
-    //         titulo: `${this.state.produto.titulo.replace(/ /g, "_")}`,
-    //         preco: this.state.produto.preco,
-    //     }).then(res => {
-    //         console.log(res)
-    //         window.open(`http://localhost:3001/${res.data.path}.pdf`, '_blank')
-    //     })
-    // }
+
 
     limparHistorioco = () => {
         this.setState({ itensHistorico: null })
@@ -160,7 +151,6 @@ class Produto extends Component {
                                 </div>
 
                                 <div className="botoes" >
-                                    <button onClick={this.comprarBoleto} className="btn-large white black-text waves-effect waves-green">Comprar Agora</button>
                                     <button
                                         onClick={() => {
                                             this.props.history.push('/carrinho')

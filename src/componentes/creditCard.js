@@ -3,6 +3,7 @@ import Card from 'react-credit-cards';
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import M from "materialize-css";
+import { UsuarioContext } from './context/UsuarioContext'
 
 import 'react-credit-cards/es/styles-compiled.css';
 import './css/styleCard.css'
@@ -17,6 +18,9 @@ import {
 var jwt = require('jsonwebtoken');
 
 export default class Cartao extends React.Component {
+
+  static contextType = UsuarioContext
+
   state = {
     number: '',
     name: '',
@@ -27,11 +31,11 @@ export default class Cartao extends React.Component {
     formData: null,
   };
 
-  componentDidMount(){
-      let token = Cookies.get('token')
-      if (!token){
-        this.props.history.push('/entrar');
-      }
+  componentDidMount() {
+    let token = Cookies.get('token')
+    if (!token) {
+      this.props.history.push('/entrar');
+    }
   }
 
   handleCallback = ({ issuer }, isValid) => {
@@ -67,10 +71,10 @@ export default class Cartao extends React.Component {
         acc[d.name] = d.value;
         return acc;
       }, {});
-      axios.post('https://restprojeto.herokuapp.com/api/putCard', {
-        formData,
-        email: this.props.email
-      })
+    axios.post('https://restprojeto.herokuapp.com/api/putCard', {
+      formData,
+      email: this.props.email
+    })
       .then((resultado) => {
         const user = resultado.data.data
         const token = jwt.sign({ user }, 'HifumiBestWaifu');
@@ -79,9 +83,14 @@ export default class Cartao extends React.Component {
           type: 'success',
           title: 'Dados adicionados com sucesso'
         })
-        .then((result) => {
-            if(result){
-              if(this.props.history !== undefined){
+          .then((result) => {
+            if (result) {
+              let { email, nome, endereco } = this.context
+              if (this.props.history !== undefined) {
+                const { addProp } = this.context
+                const novoCartao = { numero: formData.number, nome: formData.name, cvc: formData.cvc }
+
+                addProp(email, nome, novoCartao, endereco)
                 this.props.history.push('/perfil');
               } else {
                 // var instance = M.Tabs.init(this.props.tab);
@@ -90,9 +99,9 @@ export default class Cartao extends React.Component {
                 window.location.reload();
               }
             }
-        })
+          })
       }
-    )
+      )
   };
 
   render() {
@@ -101,7 +110,7 @@ export default class Cartao extends React.Component {
     return (
       <div key="Payment" className="all">
         <div className="App-payment">
-          <h4 style={{margin: 20}} className="center">Cartão</h4>
+          <h4 style={{ margin: 20 }} className="center">Cartão</h4>
           <Card
             onClick=""
             number={number}
@@ -170,7 +179,7 @@ export default class Cartao extends React.Component {
           {/* <h3>{formData !== null ? <div>Nome: {formData.name}</div>  : null}</h3>
           <h3>{formData !== null ? <div>Numero: {formData.number}</div> : null}</h3>
           <h3>{formData !== null ? <div>Codigo de segurança: {formData.cvc}</div> : null}</h3> */}
-          
+
         </div>
       </div>
     );

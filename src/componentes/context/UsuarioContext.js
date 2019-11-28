@@ -25,6 +25,15 @@ class UsuarioContextProvider extends Component {
     addProp = (email, nome, cartao, endereco) => {
         this.setState({ nome, email, cartao, endereco })
     }
+
+    addEnd = (endereco) => {
+        this.setState({ endereco })
+    }
+
+    addCard = (cartao) => {
+        this.setState({ cartao })
+    }
+
     render() {
         return (
             <UsuarioContext.Provider value={{ ...this.state, addProp: this.addProp }}>

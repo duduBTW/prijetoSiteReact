@@ -18,7 +18,7 @@ const ComprasSchema = new Schema(
             required: true
         }
         ,
-        idUsuario: {
+        usuario: {
             type: String,
             required: true
         }

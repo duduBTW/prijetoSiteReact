@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import Swal from 'sweetalert2'
 import { UsuarioContext } from '../context/UsuarioContext'
 import '../css/styleEndereco.css'
 import $ from 'jquery';
 import M from "materialize-css";
+import * as Cookies from 'es-cookie';
+
+var jwt = require('jsonwebtoken');
 
 export default class Endereco extends Component {
 
@@ -24,9 +28,6 @@ export default class Endereco extends Component {
     }
 
     enderecoCep = (cep) => {
-
-        let Correios = require('node-correios');
-        let correios = new Correios();
 
         axios.get(`https://viacep.com.br/ws/${cep}/json`)
             .then(result => {
@@ -85,15 +86,38 @@ export default class Endereco extends Component {
 
     salvarEndereco = () => {
         const { nomeDestinatario, bairro, cep, cidade, endereco, estado, numero } = this.state
-        const { email } = this.context
+        let { email, nome, cartao } = this.context
         if (!nomeDestinatario || !bairro || !cep || !cidade || !endereco || !numero) {
             M.Toast.dismissAll();
             M.toast({ html: "Todos os campos devem ser preenchidos", displayLength: 6000, classes: 'red darken-3' })
-            console.log(this.state)
         } else {
             axios.post('https://restprojeto.herokuapp.com/api/updateEndereco', {
                 nomeDestinatario, bairro, cep, cidade, endereco, estado, numero, email
             })
+                .then((res) => {
+                    const { success } = res.data;
+
+                    const user = res.data.data
+                    const token = jwt.sign({ user }, 'HifumiBestWaifu');
+                    Cookies.set('token', token);
+
+                    if (success) {
+                        const { addProp } = this.context
+                        const novoEndereco = { nomeDestinatario, bairro, cep, cidade, endereco, estado, numero, }
+
+                        // Adiciona cookie
+                        addProp(email, nome, cartao, novoEndereco)
+                        Swal.fire({
+                            type: 'success',
+                            title: 'Endereço adicinado com sucesso'
+                        })
+                            .then((result) => {
+                                if (result) {
+                                    this.props.history.push('/');
+                                }
+                            })
+                    }
+                });
         }
     }
 

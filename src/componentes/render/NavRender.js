@@ -18,6 +18,20 @@ export default function NavRender(props) {
                                 <li>
                                     <Link
                                         data-position="bottom"
+                                        data-tooltip="Minhas compras!"
+                                        style={{ marginTop: 3 }}
+                                        className="tooltipped"
+                                        onMouseEnter={() => {
+                                            var elems = document.querySelectorAll('.tooltipped');
+                                            M.Tooltip.init(elems, { margin: 0, enterDelay: 100, exitDelay: 0 });
+                                        }}
+                                        to="/compras">
+                                        <i className="material-icons">attach_money</i>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        data-position="bottom"
                                         data-tooltip="Pesquisar"
                                         style={{ marginTop: 3 }}
                                         className="tooltipped"
